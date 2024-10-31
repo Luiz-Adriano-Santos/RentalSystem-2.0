@@ -38,7 +38,7 @@ class RegistrationController:
 
         password_hash = hash_password(password)
         try:
-            User(int(age), email, full_name, gender, int(height), password_hash, int(shoe_size), int(weight)).create_user()
+            User(int(age), email, full_name, gender, int(height), False, password_hash, int(shoe_size), int(weight)).create_user()
             self.registration_view.message_box("Success", "User registered successfully.")
             self.back_to_login()
         except Exception as e:

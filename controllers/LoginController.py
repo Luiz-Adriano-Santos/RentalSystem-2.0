@@ -1,11 +1,12 @@
 import sqlite3
 import bcrypt
+import pickle
 
-from controllers.RegisteredUsersController import RegisteredUsersController
 from controllers.HomeController import HomeController
 from controllers.RegistrationController import RegistrationController
 from views.LoginView import LoginView
 from views.RoleSelectionView import RoleSelectionView
+from models.User import User
 
 class LoginController:
     def __init__(self):
@@ -14,14 +15,14 @@ class LoginController:
     def handle_login(self, email, password):
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
-        user = cursor.fetchone()
-        if user and bcrypt.checkpw(password.encode(), user[9]):
+        cursor.execute("SELECT user FROM users WHERE email = ?", (email,))
+        user = pickle.loads(cursor.fetchone()[0])
+        if user and bcrypt.checkpw(password.encode(), user.password_hash):
             self.view.root.withdraw()
-            if user[8] == 1:
-                RoleSelectionView(self, email).mainloop()
+            if user.is_employee:
+                RoleSelectionView(self, user).mainloop()
             else:
-                self.guest_page(email)
+                self.guest_page(user)
         else:
             self.view.show_message("Login Failed", "Invalid email or password")
 
@@ -33,13 +34,13 @@ class LoginController:
     def run(self):
         self.view.mainloop()
 
-    def guest_page(self, email):
+    def guest_page(self, user):
         employee_home_controller = HomeController(self)
-        employee_home_controller.open_guest_home_page(email)
+        employee_home_controller.open_guest_home_page(user)
 
-    def employee_page(self):
+    def employee_page(self, user):
         employee_home_controller = HomeController(self)
-        employee_home_controller.open_employee_home_page()
+        employee_home_controller.open_employee_home_page(user)
 
     def reset_login_fields(self):
         self.view.email_entry.delete(0, 'end')
