@@ -1,7 +1,7 @@
 from controllers.RegisteredUsersController import RegisteredUsersController
 from views.EmployeeHomeView import EmployeeHomeView
 from views.GuestHomeView import GuestHomeView
-from controllers.RequestController import RequestController
+from controllers.RequestDetailsController import RequestDetailsController
 
 class HomeController:
     def __init__(self, login_controller):
@@ -34,4 +34,4 @@ class HomeController:
 
     def open_request_details_page(self, request):
         self.view.root.withdraw()
-        RequestController(self, request)
+        RequestDetailsController(self, request)
