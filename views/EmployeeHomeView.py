@@ -3,9 +3,10 @@ from views.common.BaseLayout import create_background, initialize_window, create
 
 
 class EmployeeHomeView:
-    def __init__(self, controller):
+    def __init__(self, controller, user):
         self.controller = controller
         self.root = initialize_window()
+        self.user = user
 
         self.setup_ui()
 
@@ -75,7 +76,7 @@ class EmployeeHomeView:
         self.controller.logout()
 
     def registered_users_button_action(self):
-        self.controller.open_registered_users_page()
+        self.controller.open_registered_users_page(self.user)
 
     def mainloop(self):
         self.root.mainloop()

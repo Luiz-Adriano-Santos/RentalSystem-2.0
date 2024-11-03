@@ -3,18 +3,14 @@ from models.User import User
 from views.EmployeeUserEditView import EmployeeUserEditView
 from views.RegisteredUsersView import RegisteredUsersView
 from views.GuestEditView import GuestEditView
-from views.GuestHomeView import GuestHomeView
-
 
 class RegisteredUsersController:
     def __init__(self, controller):
         self.controller = controller
         self.view = None
 
-    
-
-    def registered_users_page(self):
-        users = User.get_all_users()
+    def registered_users_page(self, user):
+        users = user.get_all_users()
         self.view = RegisteredUsersView(self, users)
         self.view.mainloop()
 
@@ -23,8 +19,7 @@ class RegisteredUsersController:
         self.view = EmployeeUserEditView(self, user)
         self.view.mainloop()
 
-    def guest_edit_page(self, email):
-        user = User.get_all_user_data(email)
+    def guest_edit_page(self, user):
         self.view = GuestEditView(self, user)  
         self.view.mainloop()
 
@@ -32,31 +27,23 @@ class RegisteredUsersController:
         self.view.root.withdraw()
         self.controller.employee_page()
     
-    def return_guest_home(self, email):
+    def return_guest_home(self, user):
         self.view.root.withdraw()
-        self.controller.guest_page(email)
+        self.controller.guest_page(user)
 
-
-    def update_user_as_employee(self, email, new_email, full_name, new_password, password_confirmation, gender, shoe_size, age,
+    def update_user_as_employee(self, user, full_name, new_password, password_confirmation, gender, shoe_size, age,
                     is_employee, weight, height):
-        if self.update_user(email, new_email, full_name, new_password, password_confirmation, gender, shoe_size, age,
+        if self.update_user(user, full_name, new_password, password_confirmation, gender, shoe_size, age,
                         is_employee, weight, height):
             self.registered_users_page()
 
-    def update_user_as_guest(self, email, new_email, full_name, new_password, password_confirmation, gender, shoe_size, age,
-                    is_employee, weight, height):
-        if self.update_user(email, new_email, full_name, new_password, password_confirmation, gender, shoe_size, age,
-                        is_employee, weight, height):
-            self.return_guest_home(email)
+    def update_user_as_guest(self, user, full_name, new_password, password_confirmation, gender, shoe_size, age, weight, height):
+        if self.update_user(user, full_name, new_password, password_confirmation, gender, shoe_size, age, user.is_employee, weight, height):
+            self.return_guest_home(user)
 
-    def update_user(self, email, new_email, full_name, new_password, password_confirmation, gender, shoe_size, age,
-                    is_employee, weight, height):
-        if not new_email or not full_name or not gender or not age or not shoe_size or not weight or not height:
+    def update_user(self, user, full_name, new_password, password_confirmation, gender, shoe_size, age, is_employee, weight, height):
+        if not full_name or not gender or not age or not shoe_size or not weight or not height:
             self.view.show_message("Error", "All fields (except password) are required.")
-            return False
-
-        if "@" not in new_email or "." not in new_email.split("@")[-1]:
-            self.view.show_message("Error", "Invalid email format.")
             return False
 
         if not isinstance(age, int) or age <= 0:
@@ -80,17 +67,17 @@ class RegisteredUsersController:
                 self.view.show_message("Error", "Password confirmation does not match.")
                 return False
 
-            new_password_hash = hash_password(new_password)
+            password_hash = hash_password(new_password)
         else:
-            new_password_hash = None
+            password_hash = user.password_hash
 
-        User.update_user(email, new_email, full_name, age, gender, height, weight, shoe_size, new_password_hash, is_employee)
+        user.update_user(full_name, age, gender, height, weight, shoe_size, password_hash, is_employee)
         self.view.show_message("Success", "User updated successfully.")
         self.view.root.withdraw() 
         return True
 
-    def delete_user(self, email):
-        User.delete_user(email)
+    def delete_user(self, user):
+        user.delete_user()
         self.view.show_message("Success", "User deleted successfully.")
         self.view.root.withdraw()
         self.registered_users_page()

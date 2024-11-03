@@ -10,18 +10,17 @@ class EmployeeUserEditView:
         self.controller = controller
         self.root = initialize_window()
 
-        self.email = user['email']
-
-        self.full_name_entry = user['full_name']
-        self.email_entry = user['email']
+        self.user = user
+        self.full_name_entry = user.full_name
+        self.email_entry = user.email
         self.password_entry = ''
         self.password_confirmation_entry = ''
-        self.gender_entry = user['gender']
-        self.us_shoe_size_entry = user['shoe_size']
-        self.age_entry = user['age']
-        self.is_employee_entry = user['is_employee']
-        self.weight_entry = user['weight']
-        self.height_entry = user['height']
+        self.gender_entry = user.gender
+        self.us_shoe_size_entry = user.shoe_size
+        self.age_entry = user.age
+        self.is_employee_entry = user.is_employee
+        self.weight_entry = user.weight
+        self.height_entry = user.height
 
         self.setup_ui()
 
@@ -85,6 +84,7 @@ class EmployeeUserEditView:
 
         self.full_name_entry = self.create_form_field(form_frame, "FULL NAME", 2, self.full_name_entry)
         self.email_entry = self.create_form_field(form_frame, "EMAIL", 4, self.email_entry)
+        self.email_entry.configure(state="readonly")
         self.password_entry = self.create_form_field(form_frame, "NEW PASSWORD", 6, self.password_entry,
                                                      entry_options={"show": '*'})
         self.password_confirmation_entry = self.create_form_field(form_frame, "PASSWORD CONFIRMATION", 8,
@@ -145,14 +145,14 @@ class EmployeeUserEditView:
 
         return entry
 
-    def create_radio_buttons(self, parent, label_text, row, default_value=0):
+    def create_radio_buttons(self, parent, label_text, row, default_value):
         parent.grid_columnconfigure(0, minsize=120)
         parent.grid_columnconfigure(1, weight=1)
 
         employee_label = ctk.CTkLabel(parent, text=label_text, text_color='#8f8e8e')
         employee_label.grid(row=row, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='w')
 
-        radio_value = ctk.StringVar(value=str(default_value))
+        radio_value = ctk.StringVar(value='1' if default_value else '0')
 
         ctk.CTkRadioButton(parent, text='Yes', variable=radio_value, value='1', text_color='#8f8e8e').grid(
             row=row + 1, column=0, padx=(10, 0), pady=(0, 5), sticky='w'
@@ -167,7 +167,7 @@ class EmployeeUserEditView:
         confirm = messagebox.askyesno("Confirm Delete",
                                       "Are you sure you want to delete this user?")
         if confirm:
-            self.controller.delete_user(self.email)
+            self.controller.delete_user(self.user)
         else:
             self.show_message('Error', "User deletion canceled.")
 
@@ -195,7 +195,6 @@ class EmployeeUserEditView:
 
     def save(self):
         full_name = self.full_name_entry.get()
-        new_email = self.email_entry.get()
         new_password = self.password_entry.get()
         password_confirmation = self.password_confirmation_entry.get()
         gender = self.gender_entry.get()
@@ -205,7 +204,7 @@ class EmployeeUserEditView:
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        self.controller.update_user_as_employee(self.email, new_email, full_name, new_password, password_confirmation, gender, int(us_shoe_size), int(age), is_employee, int(weight), int(height))
+        self.controller.update_user_as_employee(self.user, full_name, new_password, password_confirmation, gender, int(us_shoe_size), int(age), is_employee, int(weight), int(height))
 
     def working_historic(self):
         messagebox.showinfo("Info", "Working History clicked")

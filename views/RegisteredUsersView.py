@@ -75,7 +75,7 @@ class RegisteredUsersView:
 
         name_label = ctk.CTkLabel(
             card_frame,
-            text=user['full_name'],
+            text=user.full_name,
             bg_color='#81c9d8',
             font=('Poppins Medium', 20, 'bold'),
             text_color='#8f8e8e'
@@ -84,7 +84,7 @@ class RegisteredUsersView:
 
         gender_label = ctk.CTkLabel(
             card_frame,
-            text=f"Gender: {user['gender']}",
+            text=f"Gender: {user.gender}",
             font=('Poppins Medium', 15),
             text_color='#8f8e8e'
         )
@@ -92,7 +92,7 @@ class RegisteredUsersView:
 
         age_label = ctk.CTkLabel(
             card_frame,
-            text=f"Age: {user['age']}",
+            text=f"Age: {user.age}",
             font=('Poppins Medium', 15),
             text_color='#8f8e8e'
         )

@@ -1,6 +1,4 @@
-import sqlite3
 import bcrypt
-import pickle
 
 from controllers.HomeController import HomeController
 from controllers.RegistrationController import RegistrationController
@@ -13,10 +11,7 @@ class LoginController:
         self.view = LoginView(self)
 
     def handle_login(self, email, password):
-        conn = sqlite3.connect('RentalSystem.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT user FROM users WHERE email = ?", (email,))
-        user = pickle.loads(cursor.fetchone()[0])
+        user = User.get_user(email)
         if user and bcrypt.checkpw(password.encode(), user.password_hash):
             self.view.root.withdraw()
             if user.is_employee:

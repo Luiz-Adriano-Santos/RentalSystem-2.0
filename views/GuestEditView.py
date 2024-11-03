@@ -9,16 +9,14 @@ class GuestEditView:
         self.controller = controller
         self.root = initialize_window()
 
-        self.email = user['email']
-        self.is_employee = user['is_employee']
-
-        self.full_name_entry = user['full_name']
-        self.email_entry = user['email']
-        self.age_entry = user['age']
-        self.gender_entry = user['gender']
-        self.height_entry = user['height']
-        self.weight_entry = user['weight']
-        self.us_shoe_size_entry = user['shoe_size']
+        self.user = user
+        self.full_name_entry = user.full_name
+        self.email_entry = user.email
+        self.age_entry = user.age
+        self.gender_entry = user.gender
+        self.height_entry = user.height
+        self.weight_entry = user.weight
+        self.us_shoe_size_entry = user.shoe_size
         self.password_entry = ''
         self.password_confirmation_entry = ''
 
@@ -67,6 +65,7 @@ class GuestEditView:
 
         self.full_name_entry = self.create_form_field(form_frame, "FULL NAME", 2, self.full_name_entry)
         self.email_entry = self.create_form_field(form_frame, "EMAIL", 4, self.email_entry)
+        self.email_entry.configure(state="readonly")
         self.password_entry = self.create_form_field(form_frame, "NEW PASSWORD", 6, self.password_entry,
                                                      entry_options={"show": '*'})
         self.password_confirmation_entry = self.create_form_field(form_frame, "PASSWORD CONFIRMATION", 8,
@@ -142,7 +141,6 @@ class GuestEditView:
 
     def update_user(self):
         full_name = self.full_name_entry.get()
-        new_email = self.email_entry.get()
         new_password = self.password_entry.get()
         password_confirmation = self.password_confirmation_entry.get()
         gender = self.gender_entry.get()
@@ -151,12 +149,11 @@ class GuestEditView:
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        self.controller.update_user_as_guest(self.email, new_email, full_name, new_password, password_confirmation, gender, int(us_shoe_size), int(age), self.is_employee, int(weight), int(height))
+        self.controller.update_user_as_guest(self.user, full_name, new_password, password_confirmation, gender, int(us_shoe_size), int(age), int(weight), int(height))
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)
     
-
     def mainloop(self):
         self.root.mainloop()
     
