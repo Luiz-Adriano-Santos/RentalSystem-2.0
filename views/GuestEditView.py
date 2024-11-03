@@ -149,10 +149,7 @@ class GuestEditView:
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        try:
-            self.controller.update_user_as_guest(self.user, full_name, new_password, password_confirmation, gender, int(us_shoe_size), int(age), int(weight), int(height))
-        except:
-            self.show_message('Error', 'Make sure to fill correctly the fields that request numbers')
+        self.controller.update_user_as_guest(self.user, full_name, new_password, password_confirmation, gender, us_shoe_size, age, weight, height)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)
