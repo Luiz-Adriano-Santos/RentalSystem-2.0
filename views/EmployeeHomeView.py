@@ -10,12 +10,12 @@ class EmployeeHomeView:
         self.controller = controller
         self.root = initialize_window()
         self.user = user
+        #EXEMPLO ADAPTADO PARA TESTE
+        self.requests = self.get_requests()
 
         self.setup_ui()
 
     # INÍCIO DO TRECHO UTILIZADO PARA TESTES
-
-        self.requests = self.get_requests()
 
     def get_requests(self):
         requests = []
@@ -25,8 +25,7 @@ class EmployeeHomeView:
             requests.append(Request('In Progress', 'Ski', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
         for i in range(5):
             requests.append(Request('Returned', 'Snowboard', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
-        for i in range(5):
-            requests.append(Request('Canceled', 'Ski', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
+        
         return requests
 
     # FIM DO TRECHO UTILIZADO PARA TESTES
@@ -119,7 +118,7 @@ class EmployeeHomeView:
         card_frame = ctk.CTkFrame(parent, corner_radius=10, fg_color="lightgray", width=200, height=150)
         card_frame.pack(pady=10, padx=10, fill='x')
 
-        card_frame.bind("<Button-1>", lambda event, r=request: self.on_card_click(r))
+        card_frame.bind("<Button-1>", lambda event, r=request: self.on_card_click(r, self.user))
 
         card_frame.grid_columnconfigure(0, weight=1)
 
@@ -160,5 +159,5 @@ class EmployeeHomeView:
     def mainloop(self):
         self.root.mainloop()
     
-    def on_card_click(self, request):
-        self.controller.open_request_details_page(request)
+    def on_card_click(self, request, user):
+        self.controller.open_request_details_page(request, user)

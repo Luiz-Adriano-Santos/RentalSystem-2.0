@@ -10,6 +10,16 @@ class RequestDetailsView:
         self.request = request
         self.root = initialize_window()
 
+        self.user = request.user
+        self.status_entry = request.status
+        self.sport_entry = request.sport
+        self.timestamp_entry = request.timestamp
+        self.boots = request.boots
+        self.helmet = request.helmet
+        self.ski_board = request.ski_board
+        self.employee = request.employee
+        self.din_entry = request.din
+
         self.setup_ui()
 
     def setup_ui(self):
@@ -38,19 +48,9 @@ class RequestDetailsView:
         title_frame.grid_columnconfigure(1, weight=0)
         title_frame.grid_columnconfigure(2, weight=1)
 
-        delete_user_button = ctk.CTkButton(
-            title_frame,
-            command=self.delete_user_action,
-            text='Delete User',
-            fg_color='#535353',
-            width=20,
-            height=20
-        )
-        delete_user_button.grid(row=0, column=0, padx=(0, 10))
-
         edit_label = ctk.CTkLabel(
             title_frame,
-            text="Edit User Information",
+            text="Rental Request Details",
             font=('Poppins Medium', 50, 'bold'),
             text_color='#8f8e8e'
         )
@@ -70,22 +70,66 @@ class RequestDetailsView:
         form_frame = ctk.CTkScrollableFrame(parent, corner_radius=0, fg_color="white", width=400)
         form_frame.pack(fill='y', expand=True)
 
-        self.full_name_entry = self.create_form_field(form_frame, "FULL NAME", 2, self.full_name_entry)
-        self.email_entry = self.create_form_field(form_frame, "EMAIL", 4, self.email_entry)
-        self.email_entry.configure(state="readonly")
-        self.password_entry = self.create_form_field(form_frame, "NEW PASSWORD", 6, self.password_entry,
-                                                     entry_options={"show": '*'})
-        self.password_confirmation_entry = self.create_form_field(form_frame, "PASSWORD CONFIRMATION", 8,
-                                                                  self.password_confirmation_entry,
-                                                                  entry_options={"show": '*'})
-        self.gender_entry = self.create_gender_select(form_frame, "GENDER", 10, self.gender_entry)
-        self.us_shoe_size_entry = self.create_form_field(form_frame, "US SHOE SIZE", 12, self.us_shoe_size_entry)
-        self.age_entry = self.create_form_field(form_frame, "AGE", 14, self.age_entry)
-        self.is_employee_entry = self.create_radio_buttons(form_frame, "EMPLOYEE", 16, self.is_employee_entry)
-        self.weight_entry = self.create_form_field(form_frame, "WEIGHT (KG)", 18, self.weight_entry)
-        self.height_entry = self.create_form_field(form_frame, "HEIGHT (CM)", 20, self.height_entry)
+        self.full_name_entry = self.create_form_field(form_frame, "FULL NAME", 2, self.user.full_name)
+        self.full_name_entry.configure(state="readonly")
+
+        self.sport_entry = self.create_form_field(form_frame, "SPORT", 4, self.sport_entry)
+        self.sport_entry.configure(state="readonly")
+
+        self.timestamp_entry = self.create_form_field(form_frame, "TIMESTAMP", 6, self.timestamp_entry)
+        self.timestamp_entry.configure(state="readonly")
+
+        self.status_entry = self.create_form_field(form_frame, "STATUS", 8, self.status_entry)
+        self.status_entry.configure(state="readonly")
+
+        self.gender_entry = self.create_form_field(form_frame, "GENDER", 10, self.user.gender)
+        self.gender_entry.configure(state="readonly")
+
+        self.us_shoe_size_entry = self.create_form_field(form_frame, "US SHOE SIZE", 12, self.user.shoe_size)
+        self.us_shoe_size_entry.configure(state="readonly")
+
+        self.age_entry = self.create_form_field(form_frame, "AGE", 14, self.user.age)
+        self.age_entry.configure(state="readonly")
+
+        self.weight_entry = self.create_form_field(form_frame, "WEIGHT (KG)", 16, self.user.weight)
+        self.weight_entry.configure(state="readonly")
+
+        self.height_entry = self.create_form_field(form_frame, "HEIGHT (CM)", 18, self.user.height)
+        self.height_entry.configure(state="readonly")
+        
+        row = 20
+
+        if self.ski_board == 'Not Assigned':
+
+            self.ski_board_length_entry = self.create_form_field(form_frame, "SKI/BOARD LENGTH", 20, self.ski_board)
+
+            self.ski_board_id_entry = self.create_form_field(form_frame, "SKI/BOARD ID)", 22, self.ski_board)
+
+            row = 24 
+
+        if self.din_entry:
+
+            self.din_entry = self.create_form_field(form_frame, "DIN", row, self.din_entry)
+            self.din_entry.configure(state="readonly")
+
+            row += 2
 
         self.create_buttons(form_frame)
+
+        if self.boots == 'Not Assigned':
+            
+            self.boots_id_entry = self.create_form_field(form_frame, "BOOTS ID", 20, self.boots)
+
+            row += 2
+        
+        if self.helmet == 'Not Assigned':
+
+            self.helmet_id_entry = self.create_form_field(form_frame, "HELMET ID", 20, self.helmet)
+
+            row += 2
+
+        self.employee_entry = self.create_form_field(form_frame, "EMPLOYEE", row, self.employee)
+        self.employee_entry.configure(state="readonly")
 
     def create_form_field(self, parent, label_text, row, user_value, entry_options=None):
         parent.grid_columnconfigure(0, minsize=120)
@@ -109,6 +153,7 @@ class RequestDetailsView:
 
         return entry
 
+    #CRIAR SELECTS
     def create_gender_select(self, parent, label_text, row, default_value=GenderEnum.MALE.value):
         gender_options = [GenderEnum.MALE.value, GenderEnum.FEMALE.value]
         entry = ctk.StringVar(value=default_value)
@@ -133,42 +178,26 @@ class RequestDetailsView:
 
         return entry
 
-    def create_radio_buttons(self, parent, label_text, row, default_value):
-        parent.grid_columnconfigure(0, minsize=120)
-        parent.grid_columnconfigure(1, weight=1)
-
-        employee_label = ctk.CTkLabel(parent, text=label_text, text_color='#8f8e8e')
-        employee_label.grid(row=row, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='w')
-
-        radio_value = ctk.StringVar(value='1' if default_value else '0')
-
-        ctk.CTkRadioButton(parent, text='Yes', variable=radio_value, value='1', text_color='#8f8e8e').grid(
-            row=row + 1, column=0, padx=(10, 0), pady=(0, 5), sticky='w'
-        )
-        ctk.CTkRadioButton(parent, text='No', variable=radio_value, value='0', text_color='#8f8e8e').grid(
-            row=row + 1, column=1, padx=(0, 10), pady=(0, 5), sticky='w'
-        )
-
-        return radio_value
-
-    def delete_user_action(self):
-        confirm = messagebox.askyesno("Confirm Delete",
-                                      "Are you sure you want to delete this user?")
-        if confirm:
-            self.controller.delete_user(self.user)
-        else:
-            self.show_message('Error', "User deletion canceled.")
-
     def return_button_action(self):
         self.root.withdraw()
-        self.controller.registered_users_page()
+        self.request_details_controller.employee_home_page()
 
     def create_buttons(self, parent):
-        buttons = [
-            ("Rental History", self.rental_historic),
-            ("Save", self.save),
-            ("Working History", self.working_historic)
-        ]
+
+        if self.status_entry == 'Sent':
+            buttons = [
+                ("Cancel", self.cancel),
+                ("In Progress", self.in_progress)
+            ]
+        elif self.status_entry == 'In Progress':
+            buttons = []
+            if self.ski_board != 'Not Requested':
+                buttons.append(("Return Skis/Board", self.return_ski_board))
+            if self.boots != 'Not Requested':
+                buttons.append(("Return Boots", self.return_boots))
+            if self.helmet != 'Not Requested':
+                buttons.append(("Return Helmet", self.return_helmet))
+
         for i, (text, command) in enumerate(buttons):
             ctk.CTkButton(
                 parent,
@@ -178,24 +207,20 @@ class RequestDetailsView:
                 command=command
             ).grid(row=23 + i, column=0, columnspan=2, pady=10)
 
-    def rental_historic(self):
-        messagebox.showinfo("Info", "Rental History clicked")
+    def cancel(self):
+        pass
 
-    def save(self):
-        full_name = self.full_name_entry.get()
-        new_password = self.password_entry.get()
-        password_confirmation = self.password_confirmation_entry.get()
-        gender = self.gender_entry.get()
-        us_shoe_size = self.us_shoe_size_entry.get()
-        age = self.age_entry.get()
-        is_employee = self.is_employee_entry.get()
-        weight = self.weight_entry.get()
-        height = self.height_entry.get()
+    def in_progress(self):
+        pass
 
-        self.controller.update_user_as_employee(self.user, full_name, new_password, password_confirmation, gender, us_shoe_size, age, is_employee, weight, height)
+    def return_ski_board(self):
+        pass
 
-    def working_historic(self):
-        messagebox.showinfo("Info", "Working History clicked")
+    def return_boots(self):
+        pass
+
+    def return_helmet(self):
+        pass
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)

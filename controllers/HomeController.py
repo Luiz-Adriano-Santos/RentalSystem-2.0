@@ -32,6 +32,6 @@ class HomeController:
         registered_users_controller = RegisteredUsersController(self.login_controller)
         registered_users_controller.guest_edit_page(user)
 
-    def open_request_details_page(self, request):
+    def open_request_details_page(self, request, user):
         self.view.root.withdraw()
-        RequestDetailsController(self, request)
+        RequestDetailsController(self, request, user)
