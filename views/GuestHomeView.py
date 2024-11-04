@@ -63,7 +63,6 @@ class GuestHomeView:
             height=50,
             width=300,
             corner_radius=10,
-            #command=self.open_rental_requests               Futura implementação
         )
         rental_requests_button.grid(row=1, column=0, padx=10, pady=20)
 
