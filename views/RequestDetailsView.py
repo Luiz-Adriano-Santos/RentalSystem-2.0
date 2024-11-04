@@ -184,12 +184,12 @@ class RequestDetailsView:
 
     def create_buttons(self, parent):
 
-        if self.status_entry == 'Sent':
+        if self.status_entry == 'SENT':
             buttons = [
                 ("Cancel", self.cancel),
                 ("In Progress", self.in_progress)
             ]
-        elif self.status_entry == 'In Progress':
+        elif self.status_entry == 'IN_PROGRESS':
             buttons = []
             if self.ski_board != 'Not Requested':
                 buttons.append(("Return Skis/Board", self.return_ski_board))

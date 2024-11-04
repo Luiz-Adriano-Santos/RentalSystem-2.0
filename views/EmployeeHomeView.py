@@ -20,11 +20,11 @@ class EmployeeHomeView:
     def get_requests(self):
         requests = []
         for i in range(5):
-            requests.append(Request('Sent', 'Ski', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
+            requests.append(Request('SENT', 'SKI', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
         for i in range(5):
-            requests.append(Request('In Progress', 'Ski', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
+            requests.append(Request('IN_PROGRESS', 'SNOWBOARD', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
         for i in range(5):
-            requests.append(Request('Returned', 'Snowboard', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
+            requests.append(Request('RETURNED', 'SNOWBOARD', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
         
         return requests
 

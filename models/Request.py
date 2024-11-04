@@ -11,7 +11,7 @@ class Request:
         self.ski_board = ski_board
     
     def calculate_din(self):
-        if self.ski_board == 'Not Requested' or self.ski_board.type == 'Snowboard':
+        if self.ski_board == 'Not Requested' or self.ski_board.type == 'BOARD':
             return ''
         else:
             #implementar lógica de calculo do DIN
