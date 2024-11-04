@@ -42,24 +42,26 @@ class RegisteredUsersController:
             self.return_guest_home(user)
 
     def update_user(self, user, full_name, new_password, password_confirmation, gender, shoe_size, age, is_employee, weight, height):
+        print(type(age), age)
         if not full_name or not gender or not age or not shoe_size or not weight or not height:
             self.view.show_message("Error", "All fields (except password) are required.")
             return False
 
-        if not isinstance(age, int) or age <= 0:
-            self.view.show_message("Error", "Age must be a positive integer.")
+        
+        if not str(age).isnumeric() or int(age) <= 0 or int(age) > 120:
+            self.view.show_message("Error", "Invalid age.")
             return False
 
-        if not isinstance(shoe_size, int) or shoe_size <= 0:
-            self.view.show_message("Error", "Shoe size must be a positive number.")
+        if not str(shoe_size).isnumeric() or int(shoe_size) < 0 or int(shoe_size) > 50:
+            self.view.show_message("Error", "Invalid shoe size.")
             return False
 
-        if not isinstance(weight, int) or weight <= 0:
-            self.view.show_message("Error", "Weight must be a positive number.")
+        if not str(weight).isnumeric() or int(weight) < 0 or int(weight) > 300:
+            self.view.show_message("Error", "Invalid weight.")
             return False
 
-        if not isinstance(height, int) or height <= 0:
-            self.view.show_message("Error", "Height must be a positive number.")
+        if not str(height).isnumeric() or int(height) < 0 or int(height) > 300:
+            self.view.show_message("Error", "Invalid height.")
             return False
 
         if new_password:
@@ -71,7 +73,7 @@ class RegisteredUsersController:
         else:
             password_hash = user.password_hash
 
-        user.update_user(full_name, age, gender, height, weight, shoe_size, password_hash, is_employee)
+        user.update_user(full_name, int(age), gender, int(height), int(weight), int(shoe_size), password_hash, is_employee)
         self.view.show_message("Success", "User updated successfully.")
         self.view.root.withdraw() 
         return True
