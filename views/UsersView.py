@@ -109,7 +109,10 @@ class RegisteredUsersView:
         self.controller.create_associated_user_view(self.logged_user)
 
     def on_card_click(self, user):
-        self.controller.open_employee_user_edit_page(user)
+        if self.is_associated_users:
+            self.controller.open_associated_user_edit_page(user)
+        else:
+            self.controller.open_employee_user_edit_page(user)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)

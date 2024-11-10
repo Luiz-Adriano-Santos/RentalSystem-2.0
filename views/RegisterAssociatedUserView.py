@@ -57,11 +57,11 @@ class RegisterAssociatedUserView:
         form_frame.pack(fill='y', expand=True)
 
         self.full_name_entry = create_form_field(form_frame, "FULL NAME", 2, self.full_name_entry)
-        self.gender_entry = create_gender_select(form_frame, "GENDER", 10, self.gender_entry)
-        self.us_shoe_size_entry = create_form_field(form_frame, "US SHOE SIZE", 12, self.us_shoe_size_entry)
-        self.age_entry = create_form_field(form_frame, "AGE", 14, self.age_entry)
-        self.weight_entry = create_form_field(form_frame, "WEIGHT (KG)", 18, self.weight_entry)
-        self.height_entry = create_form_field(form_frame, "HEIGHT (CM)", 20, self.height_entry)
+        self.gender_entry = create_gender_select(form_frame, "GENDER", 4, self.gender_entry)
+        self.us_shoe_size_entry = create_form_field(form_frame, "US SHOE SIZE", 6, self.us_shoe_size_entry)
+        self.age_entry = create_form_field(form_frame, "AGE", 8, self.age_entry)
+        self.weight_entry = create_form_field(form_frame, "WEIGHT (KG)", 10, self.weight_entry)
+        self.height_entry = create_form_field(form_frame, "HEIGHT (CM)", 12, self.height_entry)
 
         self.create_buttons(form_frame)
 
@@ -84,7 +84,7 @@ class RegisterAssociatedUserView:
                 font=('Poppins Bold', 13, 'bold'),
                 fg_color='#81c9d8',
                 command=command
-            ).grid(row=23 + i, column=0, columnspan=2, pady=10)
+            ).grid(row=14 + i, column=0, columnspan=2, pady=10)
 
     def create(self):
         # TODO Andreszinho: implement this method

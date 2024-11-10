@@ -1,7 +1,7 @@
 from controllers.Utils import hash_password
 from models.User import User
-from views.EmployeeUserEditView import EmployeeUserEditView
-from views.RegisteredUsersView import RegisteredUsersView
+from views.UserEditView import EmployeeUserEditView
+from views.UsersView import RegisteredUsersView
 from views.GuestEditView import GuestEditView
 
 class RegisteredUsersController:
