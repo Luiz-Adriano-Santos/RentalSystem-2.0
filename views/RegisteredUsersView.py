@@ -2,55 +2,56 @@ from tkinter import messagebox
 
 import customtkinter as ctk
 
-from views.common.BaseLayout import initialize_window, create_background, create_title
+from views.common.DefaultLayout import initialize_window, create_default_background, create_default_title, \
+    create_default_header
 
 
 class RegisteredUsersView:
-    def __init__(self, controller, users):
+    def __init__(self, controller, users, is_associated_users=False, logged_user=None):
+        self.logged_user = logged_user
         self.controller = controller
         self.root = initialize_window()
         self.users = users
+        self.is_associated_users = is_associated_users
 
         self.setup_ui()
 
     def setup_ui(self):
-        background_frame = create_background(self.root)
-        self.create_header(background_frame)
-        create_title(background_frame, 'Registered Users')
+        background_frame = create_default_background(self.root)
+        create_default_header(background_frame, self.home_button_action)
+        if self.is_associated_users:
+            title = 'Associated Users'
+            self.create_associated_users_title(background_frame, title)
+        else:
+            title = 'Registered Users'
+            create_default_title(background_frame, title)
         self.create_users_cards(background_frame)
 
-    def create_header(self, parent):
-        header_frame = ctk.CTkFrame(parent, height=50, fg_color='#81c9d8', corner_radius=0)
-        header_frame.pack(fill='x')
+    def create_associated_users_title(self, parent, title):
+        title_frame = ctk.CTkFrame(parent, corner_radius=0, fg_color="white", width=400)
+        title_frame.pack(pady=20)
 
-        header_label = ctk.CTkLabel(
-            header_frame,
-            text="RENTAL SYSTEM",
-            font=('Poppins Medium', 18, 'bold'),
-            text_color="#535353"
-        )
-        header_label.pack(side='left', padx=10)
+        title_frame.grid_columnconfigure(0, weight=1)
+        title_frame.grid_columnconfigure(1, weight=0)
+        title_frame.grid_columnconfigure(2, weight=1)
 
-        spacer_label = ctk.CTkLabel(
-            header_frame,
-            text="RENTAL SYSTEM",
-            font=('Poppins Medium', 18, 'bold'),
-            text_color="#81c9d8"
-        )
-        spacer_label.pack(side='right', padx=10)
-
-        buttons_frame = ctk.CTkFrame(header_frame, fg_color='#81c9d8')
-        buttons_frame.pack(side='top', pady=5)
-
-        home_button = ctk.CTkButton(
-            buttons_frame,
-            text='Home',
+        create_associated_user_button = ctk.CTkButton(
+            title_frame,
+            command=self.create_associated_user_action,
+            text='Create User',
             fg_color='#535353',
-            command=self.home_button_action,
-            width=30,
-            height=30
+            width=20,
+            height=20
         )
-        home_button.grid(row=0, column=0, padx=10)
+        create_associated_user_button.grid(row=0, column=0, padx=(0, 10))
+
+        edit_label = ctk.CTkLabel(
+            title_frame,
+            text=title,
+            font=('Poppins Medium', 50, 'bold'),
+            text_color='#8f8e8e'
+        )
+        edit_label.grid(row=0, column=1, pady=10)
 
     def create_users_cards(self, parent):
         users_frame = ctk.CTkScrollableFrame(parent, corner_radius=0, fg_color="white", width=1000)
@@ -99,7 +100,13 @@ class RegisteredUsersView:
         age_label.grid(row=2, column=0, sticky="w", padx=10, pady=5)
 
     def home_button_action(self):
-        self.controller.return_employee_home()
+        if self.is_associated_users:
+            self.controller.return_guest_home(self.logged_user)
+        else:
+            self.controller.return_employee_home()
+
+    def create_associated_user_action(self):
+        self.controller.create_associated_user_view(self.logged_user)
 
     def on_card_click(self, user):
         self.controller.open_employee_user_edit_page(user)

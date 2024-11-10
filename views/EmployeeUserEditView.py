@@ -2,7 +2,8 @@ import customtkinter as ctk
 from tkinter import messagebox
 
 from models.enums import GenderEnum
-from views.common.BaseLayout import create_background, initialize_window
+from views.common.DefaultLayout import create_default_background, initialize_window, create_default_header, \
+    create_form_field, create_gender_select
 
 
 class EmployeeUserEditView:
@@ -25,22 +26,10 @@ class EmployeeUserEditView:
         self.setup_ui()
 
     def setup_ui(self):
-        background_frame = create_background(self.root)
-        self.create_header(background_frame)
+        background_frame = create_default_background(self.root)
+        create_default_header(background_frame, self.home_button_action)
         self.create_form_title(background_frame)
         self.create_edit_user_form(background_frame)
-
-    def create_header(self, parent):
-        header_frame = ctk.CTkFrame(parent, height=50, fg_color='#81c9d8', corner_radius=0)
-        header_frame.pack(fill='x')
-
-        header_label = ctk.CTkLabel(
-            header_frame,
-            text="RENTAL SYSTEM",
-            font=('Poppins Medium', 18, 'bold'),
-            text_color="#535353"
-        )
-        header_label.pack(side='left', padx=10)
 
     def create_form_title(self, parent):
         title_frame = ctk.CTkFrame(parent, corner_radius=0, fg_color="white", width=400)
@@ -82,68 +71,22 @@ class EmployeeUserEditView:
         form_frame = ctk.CTkScrollableFrame(parent, corner_radius=0, fg_color="white", width=400)
         form_frame.pack(fill='y', expand=True)
 
-        self.full_name_entry = self.create_form_field(form_frame, "FULL NAME", 2, self.full_name_entry)
-        self.email_entry = self.create_form_field(form_frame, "EMAIL", 4, self.email_entry)
+        self.full_name_entry = create_form_field(form_frame, "FULL NAME", 2, self.full_name_entry)
+        self.email_entry = create_form_field(form_frame, "EMAIL", 4, self.email_entry)
         self.email_entry.configure(state="readonly")
-        self.password_entry = self.create_form_field(form_frame, "NEW PASSWORD", 6, self.password_entry,
+        self.password_entry = create_form_field(form_frame, "NEW PASSWORD", 6, self.password_entry,
                                                      entry_options={"show": '*'})
-        self.password_confirmation_entry = self.create_form_field(form_frame, "PASSWORD CONFIRMATION", 8,
+        self.password_confirmation_entry = create_form_field(form_frame, "PASSWORD CONFIRMATION", 8,
                                                                   self.password_confirmation_entry,
                                                                   entry_options={"show": '*'})
-        self.gender_entry = self.create_gender_select(form_frame, "GENDER", 10, self.gender_entry)
-        self.us_shoe_size_entry = self.create_form_field(form_frame, "US SHOE SIZE", 12, self.us_shoe_size_entry)
-        self.age_entry = self.create_form_field(form_frame, "AGE", 14, self.age_entry)
+        self.gender_entry = create_gender_select(form_frame, "GENDER", 10, self.gender_entry)
+        self.us_shoe_size_entry = create_form_field(form_frame, "US SHOE SIZE", 12, self.us_shoe_size_entry)
+        self.age_entry = create_form_field(form_frame, "AGE", 14, self.age_entry)
         self.is_employee_entry = self.create_radio_buttons(form_frame, "EMPLOYEE", 16, self.is_employee_entry)
-        self.weight_entry = self.create_form_field(form_frame, "WEIGHT (KG)", 18, self.weight_entry)
-        self.height_entry = self.create_form_field(form_frame, "HEIGHT (CM)", 20, self.height_entry)
+        self.weight_entry = create_form_field(form_frame, "WEIGHT (KG)", 18, self.weight_entry)
+        self.height_entry = create_form_field(form_frame, "HEIGHT (CM)", 20, self.height_entry)
 
         self.create_buttons(form_frame)
-
-    def create_form_field(self, parent, label_text, row, user_value, entry_options=None):
-        parent.grid_columnconfigure(0, minsize=120)
-        parent.grid_columnconfigure(1, weight=1)
-
-        ctk.CTkLabel(parent, text=label_text, text_color='#8f8e8e').grid(
-            row=row, column=0, columnspan=2, sticky='w', padx=10, pady=(5, 2)
-        )
-
-        entry_options = entry_options or {}
-        entry = ctk.CTkEntry(
-            parent,
-            width=220,
-            fg_color='lightgray',
-            border_width=0,
-            text_color='#4a4a4a',
-            **entry_options
-        )
-        entry.grid(row=row + 1, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='nsew')
-        entry.insert(0, user_value)
-
-        return entry
-
-    def create_gender_select(self, parent, label_text, row, default_value=GenderEnum.MALE.value):
-        gender_options = [GenderEnum.MALE.value, GenderEnum.FEMALE.value]
-        entry = ctk.StringVar(value=default_value)
-
-        ctk.CTkLabel(parent, text=label_text, text_color='#8f8e8e').grid(
-            row=row, column=0, columnspan=2, padx=10, pady=(5, 2), sticky='w'
-        )
-
-        gender_select = ctk.CTkOptionMenu(
-            parent,
-            variable=entry,
-            fg_color='lightgray',
-            button_color='lightgray',
-            button_hover_color='gray',
-            dropdown_fg_color='lightgray',
-            dropdown_text_color='#4a4a4a',
-            dropdown_hover_color='gray',
-            text_color='#4a4a4a',
-            values=gender_options
-        )
-        gender_select.grid(row=row + 1, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='nsew')
-
-        return entry
 
     def create_radio_buttons(self, parent, label_text, row, default_value):
         parent.grid_columnconfigure(0, minsize=120)
@@ -174,6 +117,10 @@ class EmployeeUserEditView:
     def return_button_action(self):
         self.root.withdraw()
         self.controller.registered_users_page()
+
+    def home_button_action(self):
+        self.root.withdraw()
+        self.controller.return_employee_home()
 
     def create_buttons(self, parent):
         buttons = [

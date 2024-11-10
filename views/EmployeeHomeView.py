@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from views.common.BaseLayout import create_background, initialize_window, create_title
+from views.common.DefaultLayout import create_default_background, initialize_window, create_default_title
 
 # IMPORTAÇÕES UTILIZADAS PARA TESTES:
 from models.Request import Request
@@ -31,9 +31,9 @@ class EmployeeHomeView:
     # FIM DO TRECHO UTILIZADO PARA TESTES
 
     def setup_ui(self):
-        background_frame = create_background(self.root)
+        background_frame = create_default_background(self.root)
         self.create_employee_home_header(background_frame)
-        create_title(background_frame, 'Rental Requests')
+        create_default_title(background_frame, 'Rental Requests')
         self.create_status_columns(background_frame)
 
     def create_employee_home_header(self, parent):
