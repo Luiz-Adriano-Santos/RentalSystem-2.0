@@ -2,7 +2,8 @@ import customtkinter as ctk
 from tkinter import messagebox
 
 from models.enums import GenderEnum
-from views.common.BaseLayout import create_background, initialize_window
+from views.common.DefaultLayout import create_default_background, initialize_window, create_default_header
+
 
 class GuestEditView:
     def __init__(self, controller, user):
@@ -23,8 +24,8 @@ class GuestEditView:
         self.setup_ui()
 
     def setup_ui(self):
-        background_frame = create_background(self.root)
-        self.create_header(background_frame)
+        background_frame = create_default_background(self.root)
+        create_default_header(background_frame, self.home_button_action)
         self.create_form_title(background_frame)
         self.create_edit_user_form(background_frame)
 
@@ -33,19 +34,6 @@ class GuestEditView:
         root.title("RENTAL SYSTEM - Edit Account")
         root.geometry("1000x700")
         return root
-
-
-    def create_header(self, parent):
-        header_frame = ctk.CTkFrame(parent, height=50, fg_color='#81c9d8', corner_radius=0)
-        header_frame.pack(fill='x')
-
-        header_label = ctk.CTkLabel(
-            header_frame,
-            text="RENTAL SYSTEM",
-            font=('Poppins Medium', 18, 'bold'),
-            text_color="#535353"
-        )
-        header_label.pack(side='left', padx=10)
 
     def create_form_title(self, parent):
         title_frame = ctk.CTkFrame(parent, corner_radius=0, fg_color="white")
@@ -125,6 +113,10 @@ class GuestEditView:
     def return_button_action(self):
         self.root.withdraw()
         self.controller.registered_users_page()
+
+    def home_button_action(self):
+        self.root.withdraw()
+        self.controller.return_guest_home(self.user)
 
     def create_buttons(self, parent):
         buttons = [

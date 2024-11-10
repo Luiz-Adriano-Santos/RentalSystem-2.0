@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from views.common.BaseLayout import create_background, initialize_window, create_title
+from views.common.DefaultLayout import create_default_background, initialize_window
 
 class GuestHomeView:
     def __init__(self, controller, user):
@@ -9,7 +9,7 @@ class GuestHomeView:
         self.setup_ui()
 
     def setup_ui(self):
-        background_frame = create_background(self.root)
+        background_frame = create_default_background(self.root)
         self.create_user_home_header(background_frame)
         self.create_user_home_form(background_frame)
         self.create_user_home_buttons(background_frame)
@@ -176,7 +176,7 @@ class GuestHomeView:
             height=80,
             width=300,
             corner_radius=20,
-            # command=self.open_associated_users  # Adicionar a função de callback para abrir a página de usuários associados
+            command=self.open_associated_users
         )
         associated_users_button.grid(row=2, column=0, padx=10, pady=15)
 
@@ -190,6 +190,10 @@ class GuestHomeView:
     def open_rental_requests(self):
         self.close()
         self.controller.open_rental_requests_page()
+
+    def open_associated_users(self):
+        self.close()
+        self.controller.open_associated_users_page(self.user)
 
     def close(self):
         self.root.destroy()

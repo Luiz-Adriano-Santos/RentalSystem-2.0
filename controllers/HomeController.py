@@ -1,3 +1,4 @@
+from controllers.AssociatedUsersController import AssociatedUsersController
 from controllers.RegisteredUsersController import RegisteredUsersController
 from views.EmployeeHomeView import EmployeeHomeView
 from views.GuestHomeView import GuestHomeView
@@ -27,6 +28,10 @@ class HomeController:
         registered_users_controller = RegisteredUsersController(self.login_controller)
         self.view.root.withdraw()
         registered_users_controller.registered_users_page(user)
+
+    def open_associated_users_page(self, user):
+        associated_users_controller = AssociatedUsersController(self.login_controller)
+        associated_users_controller.associated_users_page(user)
     
     def open_guest_edit_page(self, user):
         registered_users_controller = RegisteredUsersController(self.login_controller)
