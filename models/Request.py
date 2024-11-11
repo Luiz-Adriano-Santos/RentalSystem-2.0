@@ -1,15 +1,15 @@
 class Request:
-    def __init__(self, status, sport, timestamp, user, boots, helmet, ski_board):
+    def __init__(self, status, sport, timestamp, user):
         self.status = status
         self.sport = sport
         self.timestamp = timestamp
         self.user = user
-        self.boots = boots
-        self.din = self.calculate_din()
+        self.boots = ''
+        self.din = '' #self.calculate_din()
         self.employee = ''
-        self.helmet = helmet
-        self.ski_board = ski_board
-
+        self.helmet = ''
+        self.ski_board = ''
+'''
     def calculate_din(self):
 
         if self.ski_board == 'Not Requested' or self.ski_board.type == 'BOARD':
@@ -82,4 +82,4 @@ class Request:
             if tier[index] == 0:
                 return 'Error'
             else:
-                return tier[index]
+                return tier[index]'''

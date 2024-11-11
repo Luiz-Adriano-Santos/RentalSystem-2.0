@@ -21,10 +21,6 @@ class EmployeeHomeView:
         requests = []
         for i in range(5):
             requests.append(Request('SENT', 'SKI', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
-        for i in range(5):
-            requests.append(Request('IN_PROGRESS', 'SNOWBOARD', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
-        for i in range(5):
-            requests.append(Request('RETURNED', 'SNOWBOARD', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
         
         return requests
 
@@ -93,7 +89,7 @@ class EmployeeHomeView:
         status_frame = ctk.CTkScrollableFrame(parent, fg_color='white')
         status_frame.pack(pady=20, padx=20, fill='both', expand=True)
 
-        statuses = ["Sent", "In Progress", "Returned", "Canceled"]
+        statuses = ["SENT", "IN_PROGRESS", "RETURNED", "CANCELED"]
 
         columns_container = ctk.CTkFrame(status_frame, fg_color='white')
         columns_container.pack(pady=10, padx=50) 
