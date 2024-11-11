@@ -28,7 +28,6 @@ class HomeController:
 
     def open_registered_users_page(self, user):
         registered_users_controller = RegisteredUsersController(self.login_controller)
-        self.view.root.withdraw()
         registered_users_controller.registered_users_page(user)
 
     def open_associated_users_page(self, user):

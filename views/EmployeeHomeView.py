@@ -153,7 +153,6 @@ class EmployeeHomeView:
     def registered_users_button_action(self):
         self.close()
         self.controller.open_registered_users_page(self.user)
-        
 
     def mainloop(self):
         self.root.mainloop()

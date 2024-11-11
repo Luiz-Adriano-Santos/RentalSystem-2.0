@@ -138,14 +138,14 @@ class EmployeeUserEditView:
         if self.is_associated_user:
             self.controller.associated_users_page(self.user)
         else:
-            self.controller.registered_users_page()
+            self.controller.registered_users_page(self.user)
 
     def home_button_action(self):
         self.root.withdraw()
         if self.is_associated_user:
             self.controller.return_guest_home(self.user)
         else:
-            self.controller.return_employee_home()
+            self.controller.return_employee_home(self.user)
 
     def create_associated_users_buttons(self, parent):
         buttons = [

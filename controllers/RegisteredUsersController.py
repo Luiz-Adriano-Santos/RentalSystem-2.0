@@ -23,9 +23,9 @@ class RegisteredUsersController:
         self.view = GuestEditView(self, user)  
         self.view.mainloop()
 
-    def return_employee_home(self):
+    def return_employee_home(self, user):
         self.view.root.withdraw()
-        self.controller.employee_page()
+        self.controller.employee_page(user)
     
     def return_guest_home(self, user):
         self.view.root.withdraw()
