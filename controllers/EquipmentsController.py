@@ -1,6 +1,7 @@
 
 import datetime
 from models.Equipment import Equipment
+from views.EquipmentEditView import EquipmentEditView
 from views.EquipmentsHomeView import EquipmentsHomeView
 from views.EquipmentRegistrationView import EquipmentRegistrationView
 
@@ -13,6 +14,10 @@ class EquipmentsController:
     def equipments_page(self):
         equipments = Equipment.get_all_equipments()
         self.view = EquipmentsHomeView(self, equipments)
+        self.view.mainloop()
+    
+    def edit_equipment_page(self, equipment):
+        self.view = EquipmentEditView(self, equipment)
         self.view.mainloop()
     
     def register_equipment_page(self):
