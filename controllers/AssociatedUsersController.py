@@ -1,6 +1,6 @@
 from views.UserEditView import EmployeeUserEditView
 from views.RegisterAssociatedUserView import RegisterAssociatedUserView
-from views.UsersView import RegisteredUsersView
+from views.UsersView import UsersView
 
 
 class AssociatedUsersController:
@@ -12,7 +12,7 @@ class AssociatedUsersController:
         # TODO Andreszinho: add get_all_associated_users() method in User class ou algo do tipo XD
         associated_users = user.get_all_users()
         is_associated_users = True
-        self.view = RegisteredUsersView(self, associated_users, is_associated_users, user)
+        self.view = UsersView(self, user, associated_users, is_associated_users, )
         self.view.mainloop()
 
     def create_associated_user_view(self, user):
@@ -32,7 +32,7 @@ class AssociatedUsersController:
         # TODO Andreszinho: implement this method
         pass
 
-    def open_associated_user_edit_page(self, user):
+    def open_associated_user_edit_page(self, logged_user, user):
         self.view.root.withdraw()
-        self.view = EmployeeUserEditView(self, user, is_associated_user=True)
+        self.view = EmployeeUserEditView(self, logged_user, user, is_associated_user=True)
         self.view.mainloop()
