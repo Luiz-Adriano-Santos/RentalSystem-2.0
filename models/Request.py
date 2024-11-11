@@ -9,8 +9,6 @@ class Request:
         self.employee = ''
         self.helmet = helmet
         self.ski_board = ski_board
-    
-    """NÃO FINALIZADO(BERETTA):
 
     def calculate_din(self):
 
@@ -54,7 +52,34 @@ class Request:
                 din_w = 2
             elif 21 < self.user.weight <= 25:
                 din_w = 3
+            elif 25 < self.user.weight <= 230:
+                din_w = 4
+            elif 30 < self.user.weight <= 35:
+                din_w = 5
+            elif 35 < self.user.weight <= 41:
+                din_w = 6
+            elif 41 < self.user.weight <= 48:
+                din_w = 7
+            elif 48 < self.user.weight <= 57:
+                din_w = 8
+            elif 57 < self.user.weight <= 66:
+                din_w = 9
+            elif 66 < self.user.weight <= 78:
+                din_w = 10
+            elif 78 < self.user.weight <= 94:
+                din_w = 11
+            else:
+                din_w = 12
+            
+            if din_h < din_w:
+                index = din_h
+            else:
+                index = din_w
+            
+            if self.user.age < 10 or self.user.age > 59:
+                index -= 1
 
-            return ''
-
-            """
+            if tier[index] == 0:
+                return 'Error'
+            else:
+                return tier[index]
