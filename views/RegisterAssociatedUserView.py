@@ -6,11 +6,11 @@ from views.common.DefaultLayout import create_default_background, initialize_win
 
 
 class RegisterAssociatedUserView:
-    def __init__(self, controller, user):
+    def __init__(self, controller, logged_user):
         self.controller = controller
         self.root = initialize_window()
 
-        self.user = user
+        self.logged_user = logged_user
         self.full_name_entry = ""
         self.gender_entry = ""
         self.us_shoe_size_entry = ""
@@ -87,16 +87,23 @@ class RegisterAssociatedUserView:
             ).grid(row=14 + i, column=0, columnspan=2, pady=10)
 
     def create(self):
-        # TODO Andreszinho: implement this method
-        # full_name = self.full_name_entry.get()
-        # gender = self.gender_entry.get()
-        # us_shoe_size = self.us_shoe_size_entry.get()
-        # age = self.age_entry.get()
-        # weight = self.weight_entry.get()
-        # height = self.height_entry.get()
-        #
-        # self.controller.create_associated_user()
-        pass
+        full_name = self.full_name_entry.get()
+        gender = self.gender_entry.get()
+        us_shoe_size = self.us_shoe_size_entry.get()
+        age = self.age_entry.get()
+        weight = self.weight_entry.get()
+        height = self.height_entry.get()
+
+        user = {
+            "full_name": full_name,
+            "gender": gender,
+            "shoe_size": us_shoe_size,
+            "age": age,
+            "weight": weight,
+            "height": height
+        }
+
+        self.controller.create_associated_user(self.logged_user, user)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)

@@ -103,7 +103,6 @@ class UsersView:
         if self.is_associated_users:
             self.controller.return_guest_home(self.logged_user)
         else:
-            print(self.logged_user)
             self.controller.return_employee_home(self.logged_user)
 
     def create_associated_user_action(self):

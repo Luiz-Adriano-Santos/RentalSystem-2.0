@@ -130,7 +130,7 @@ class EmployeeUserEditView:
         confirm = messagebox.askyesno("Confirm Delete",
                                       "Are you sure you want to delete this user?")
         if confirm:
-            self.controller.delete_user(self.editing_user)
+            self.controller.delete_user(self.logged_user, self.editing_user)
         else:
             self.show_message('Error', "User deletion canceled.")
 
@@ -194,14 +194,23 @@ class EmployeeUserEditView:
         self.controller.update_user_as_employee(self.editing_user, full_name, new_password, password_confirmation, gender, us_shoe_size, age, is_employee, weight, height)
 
     def save_account_associated(self):
-        full_name = self.full_name_entry
+        full_name = self.full_name_entry.get()
         gender = self.gender_entry.get()
         us_shoe_size = self.us_shoe_size_entry.get()
         age = self.age_entry.get()
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        self.controller.update_associated_user()
+        user = {
+            'full_name': full_name,
+            'gender': gender,
+            'shoe_size': us_shoe_size,
+            'age': age,
+            'weight': weight,
+            'height': height
+        }
+
+        self.controller.update_associated_user(self.logged_user, user)
 
     def working_historic(self):
         messagebox.showinfo("Info", "Working History clicked")

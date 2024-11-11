@@ -42,7 +42,6 @@ class RegisteredUsersController:
             self.return_guest_home(user)
 
     def update_user(self, user, full_name, new_password, password_confirmation, gender, shoe_size, age, is_employee, weight, height):
-        print(type(age), age)
         if not full_name or not gender or not age or not shoe_size or not weight or not height:
             self.view.show_message("Error", "All fields (except password) are required.")
             return False
@@ -78,8 +77,8 @@ class RegisteredUsersController:
         self.view.root.withdraw() 
         return True
 
-    def delete_user(self, user):
+    def delete_user(self, logged_user, user):
         user.delete_user()
         self.view.show_message("Success", "User deleted successfully.")
         self.view.root.withdraw()
-        self.registered_users_page()
+        self.registered_users_page(logged_user)
