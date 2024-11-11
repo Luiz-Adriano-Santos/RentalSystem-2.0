@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from views.common.BaseLayout import create_background
+from views.common.DefaultLayout import create_default_background
 
 class EquipmentsHomeView:
     def __init__(self, controller, equipments):
@@ -10,7 +10,7 @@ class EquipmentsHomeView:
         self.setup_ui()
 
     def setup_ui(self):
-        background_frame = create_background(self.root)
+        background_frame = create_default_background(self.root)
         self.create_header(background_frame)
         self.create_form_title(background_frame)
         self.create_equipment_columns(background_frame)

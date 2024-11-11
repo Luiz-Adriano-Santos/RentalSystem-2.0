@@ -176,7 +176,7 @@ class GuestHomeView:
             height=80,
             width=300,
             corner_radius=20,
-            command=self.open_associated_users
+            command=self.open_associated_users)
 
         associated_users_button.grid(row=2, column=0, padx=10, pady=15)
 
