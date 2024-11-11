@@ -148,16 +148,23 @@ class EmployeeHomeView:
         age_label.grid(row=2, column=0, sticky="w", padx=10, pady=5)
 
     def equipments_button_action(self):
+        self.close()
         self.controller.open_equipments_page()
 
     def logout_button_action(self):
         self.controller.logout()
 
     def registered_users_button_action(self):
+        self.close()
         self.controller.open_registered_users_page(self.user)
+        
 
     def mainloop(self):
         self.root.mainloop()
     
+    def close(self):
+        self.root.destroy()
+    
+
     def on_card_click(self, request, user):
         self.controller.open_request_details_page(request, user)
