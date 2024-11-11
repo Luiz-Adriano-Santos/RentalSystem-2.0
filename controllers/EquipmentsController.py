@@ -19,7 +19,18 @@ class EquipmentsController:
         self.view = EquipmentRegistrationView(self)
         self.view.mainloop()
 
+    def delete_equipment(self, equipment):
+        try:
+            if equipment.availability == "Rented":
+                self.view.show_message("Error", "Cannot delete equipment that is currently rented.")
+                return
+            Equipment.delete_equipment(equipment_id=equipment.equipment_id)
+            self.view.show_message("Success", "Equipment deleted successfully.")
+            self.edit_equipment_page()
 
+        except Exception as e:
+            self.view.show_message("Error", f"Error deleting equipment: {str(e)}")
+            return
 
     def add_new_equipment(self, type, id, size):
         if not all([type, id, size]):

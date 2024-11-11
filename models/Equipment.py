@@ -35,3 +35,10 @@ class Equipment:
             equipments_list.append(equipment)
 
         return equipments_list
+
+    def delete_equipment(equipment_id):
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM equipments WHERE id = ?", (equipment_id,))
+        conn.commit()
+        conn.close()
