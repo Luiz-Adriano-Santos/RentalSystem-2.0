@@ -1,3 +1,4 @@
+from controllers.EquipmentsController import EquipmentsController
 from controllers.AssociatedUsersController import AssociatedUsersController
 from controllers.RegisteredUsersController import RegisteredUsersController
 from views.EmployeeHomeView import EmployeeHomeView
@@ -17,7 +18,8 @@ class HomeController:
         self.view.mainloop()
 
     def open_equipments_page(self):
-        pass
+        equipments_controller = EquipmentsController(self.login_controller)
+        equipments_controller.equipments_page()
 
     def logout(self):
         self.view.root.withdraw()
