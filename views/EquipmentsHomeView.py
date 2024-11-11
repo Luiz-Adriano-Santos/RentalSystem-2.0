@@ -8,18 +8,8 @@ class EquipmentsHomeView:
         self.equipments = equipments 
         self.root = self.initialize_window()
         self.setup_ui()
-    
-    def teste(self):
-        for equipment in self.equipments:
-            print(equipment.equipment_id, type(equipment.equipment_id))
-            print(equipment.equipment_type, type(equipment.equipment_type))
-            print(equipment.size)
-            print(equipment.registration_date)
-            print(equipment.availability)
-            print()
 
     def setup_ui(self):
-        self.teste()
         background_frame = create_background(self.root)
         self.create_header(background_frame)
         self.create_form_title(background_frame)
@@ -111,6 +101,13 @@ class EquipmentsHomeView:
 
         availability_label = ctk.CTkLabel(card_frame, text=f"Availability: {equipment.availability}", font=('Poppins', 16))
         availability_label.pack(anchor='w', padx=10, pady=2)
+
+        card_frame.bind("<Button-1>", lambda e: self.on_card_click(equipment))
+
+    def on_card_click(self, equipment):
+        self.close()
+        self.controller.edit_equipment_page(equipment)
+        
 
     def add_equipment_action(self):
         self.close()
