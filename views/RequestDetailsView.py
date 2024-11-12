@@ -116,9 +116,26 @@ class RequestDetailsView:
 
         if self.boots == "Requested":
             
-            self.boots_id_entry = self.create_form_field(form_frame, "BOOTS ID", row, self.boots)
+            self.label_boots = ctk.CTkLabel(
+                form_frame,
+                text="BOOTS ID",
+                text_color='#8f8e8e',
+                anchor="w"
+            )
+            self.label_boots.grid(row=row, column=0, sticky='w', pady=(5, 2), padx=10)
 
-            row += 2
+            self.combo_boots = ctk.CTkComboBox(
+                form_frame,
+                width=200,
+                fg_color='lightgray',
+                border_width=0,
+                text_color='#4a4a4a',
+                values=self.request_details_controller.get_boots(),
+            )
+            self.combo_boots.set("")
+            self.combo_boots.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
+
+            row += 4
         
         if self.helmet == "Requested":
 

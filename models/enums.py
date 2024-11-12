@@ -7,5 +7,5 @@ class GenderEnum(Enum):
 class StatusEnum(Enum):
     SENT = "SENT"
     CANCELED = "CANCELED"
-    IN_PROGRESS = "IN PROGRESS"
+    IN_PROGRESS = "IN_PROGRESS"
     RETURNED = "RETURNED"

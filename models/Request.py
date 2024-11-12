@@ -157,3 +157,30 @@ class Request:
 
         conn.commit()
         conn.close()
+
+    def get_boots(self):
+
+        requests = self.get_requests()
+        in_progress_requests = []
+        for request in requests:
+            if request.status == "IN_PROGRESS":
+                in_progress_requests.append(request)
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT equipment FROM equipments")
+
+        equipments = cursor.fetchall()
+        conn.close()
+
+        available_boots_list = []
+        for equipment_data in equipments:
+            equipment = pickle.loads(equipment_data[0])
+            if equipment.equipment_type == 'Boot' and equipment.size == self.associatedUser.shoe_size:
+                for request in in_progress_requests:
+                    if request.boots == equipment.equipment_id:
+                        break
+                    available_boots_list.append(equipment.equipment_id)
+        
+        return available_boots_list
