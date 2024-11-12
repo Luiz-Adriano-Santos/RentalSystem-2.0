@@ -1,5 +1,3 @@
-import sqlite3
-import pickle
 from controllers.EquipmentsController import EquipmentsController
 from controllers.AssociatedUsersController import AssociatedUsersController
 from controllers.RegisteredUsersController import RegisteredUsersController
@@ -83,3 +81,6 @@ class HomeController:
 
         Request(StatusEnum.SENT.value, sport, timestamp, user, includes_boots, includes_helmet, includes_skis, associatedName).create_request()
         GuestHomeView.message_box('Success', 'Request submitted successfully!')
+    
+    def get_requests(self):
+        return Request.get_requests()

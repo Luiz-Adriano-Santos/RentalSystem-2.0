@@ -1,30 +1,13 @@
 import customtkinter as ctk
 from views.common.DefaultLayout import create_default_background, initialize_window, create_default_title
 
-# IMPORTAÇÕES UTILIZADAS PARA TESTES:
-from models.Request import Request
-from datetime import datetime
-
 class EmployeeHomeView:
     def __init__(self, controller, user):
         self.controller = controller
         self.root = initialize_window()
         self.user = user
-        #EXEMPLO ADAPTADO PARA TESTE
         self.requests = self.get_requests()
-
         self.setup_ui()
-
-    # INÍCIO DO TRECHO UTILIZADO PARA TESTES
-
-    def get_requests(self):
-        requests = []
-        for i in range(5):
-            requests.append(Request('SENT', 'SKI', datetime.now().strftime("%d/%m/%Y %H:%M:%S"), self.user))
-        
-        return requests
-
-    # FIM DO TRECHO UTILIZADO PARA TESTES
 
     def setup_ui(self):
         background_frame = create_default_background(self.root)
@@ -163,3 +146,6 @@ class EmployeeHomeView:
 
     def on_card_click(self, request, user):
         self.controller.open_request_details_page(request, user)
+
+    def get_requests(self):
+        return self.controller.get_requests()

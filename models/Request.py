@@ -97,3 +97,20 @@ class Request:
 
         conn.commit()
         conn.close()
+
+    @classmethod
+    def get_requests(cls):
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT request FROM requests")
+
+        all_requests = cursor.fetchall()
+        conn.close()
+
+        requests_list = []
+        for request_data in all_requests:
+            request = pickle.loads(request_data[0])
+            requests_list.append(request)
+        
+        return requests_list
