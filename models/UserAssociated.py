@@ -16,12 +16,13 @@ class UserAssociated:
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO usersAssociated (parent_user, user, full_name) VALUES (?, ?, ?)", (self.parent_user_email, pickle.dumps(self), self.full_name))
+        cursor.execute("INSERT INTO UsersAssociated (emailUser, userAssociated, userAssociatedName) VALUES (?, ?, ?)", (self.parent_user_email, pickle.dumps(self), self.full_name))
 
         conn.commit()
         conn.close()
 
     def update_associated_user(self, user):
+        old_name = self.full_name
         self.full_name = user["full_name"]
         self.gender = user["gender"]
         self.shoe_size = user["shoe_size"]
@@ -32,12 +33,12 @@ class UserAssociated:
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()
 
-        user_data = [pickle.dumps(self), self.parent_user_email]
+        user_data = [pickle.dumps(self), self.full_name, self.parent_user_email, old_name]
 
         query = '''
             UPDATE UsersAssociated 
-            SET user = ?
-            WHERE parent_user = ?
+            SET userAssociated = ?, userAssociatedName = ?
+            WHERE emailUser = ? AND userAssociatedName = ?
             '''
 
         try:
@@ -53,7 +54,7 @@ class UserAssociated:
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()
 
-        cursor.execute("DELETE FROM usersAssociated WHERE full_name = ?", self.full_name)
+        cursor.execute("DELETE FROM UsersAssociated WHERE userAssociatedName = ?", (self.full_name,))
 
         conn.commit()
         conn.close()
@@ -64,8 +65,8 @@ class UserAssociated:
         cursor = conn.cursor()
 
         cursor.execute('''
-        SELECT user FROM UsersAssociated
-        WHERE parent_user = ?
+        SELECT userAssociated FROM UsersAssociated
+        WHERE emailUser = ?
         ''', (parent_user_email,))
 
         users = []

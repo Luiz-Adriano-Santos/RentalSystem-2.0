@@ -10,7 +10,7 @@ class AssociatedUsersController:
         self.view = None
 
     def associated_users_page(self, user):
-        associated_users = UserAssociated.get_associated_users(user)
+        associated_users = UserAssociated.get_associated_users(user.email)
         is_associated_users = True
         self.view = UsersView(self, user, associated_users, is_associated_users, )
         self.view.mainloop()
@@ -34,40 +34,41 @@ class AssociatedUsersController:
         parent_user_email = logged_user.email
 
         if not all([full_name, age, gender, height, weight, shoe_size]):
-            self.view.message_box("Error", "Please fill in all fields.")
+            self.view.show_message("Error", "Please fill in all fields.")
             return
 
         if not str(age).isnumeric() or int(age) < 0 or int(age) > 120:
-            self.view.message_box("Error", "Invalid age.")
+            self.view.show_message("Error", "Invalid age.")
             return
 
         if not str(height).isnumeric() or int(height) < 0 or int(height) > 300:
-            self.view.message_box("Error", "Invalid height.")
+            self.view.show_message("Error", "Invalid height.")
             return
 
         if not str(weight).isnumeric() or int(weight) < 0 or int(weight) > 300:
-            self.view.message_box("Error", "Invalid weight.")
+            self.view.show_message("Error", "Invalid weight.")
             return
 
         if not str(shoe_size).isnumeric() or int(shoe_size) < 0 or int(shoe_size) > 50:
-            self.view.message_box("Error", "Invalid shoe size.")
+            self.view.show_message("Error", "Invalid shoe size.")
             return
 
         try:
             UserAssociated(parent_user_email, full_name, gender, shoe_size, age, weight, height).create_associated_user()
-            self.view.message_box("Success", "Associated User registered successfully.")
+            self.view.show_message("Success", "Associated User registered successfully.")
+            self.view.root.withdraw()
             self.associated_users_page(logged_user)
         except Exception as e:
-            self.view.message_box("Error", f"Error registering user: {str(e)}")
+            self.view.show_message("Error", f"Error registering user: {str(e)}")
             return
 
-    def update_associated_user(self, logged_user, user):
-        full_name = user["full_name"]
-        age = user["age"]
-        gender = user["gender"]
-        height = user["height"]
-        weight = user["weight"]
-        shoe_size = user["shoe_size"]
+    def update_associated_user(self, logged_user, editing_user, user_data):
+        full_name = user_data["full_name"]
+        age = user_data["age"]
+        gender = user_data["gender"]
+        height = user_data["height"]
+        weight = user_data["weight"]
+        shoe_size = user_data["shoe_size"]
 
         if not all([full_name, age, gender, height, weight, shoe_size]):
             self.view.message_box("Error", "Please fill in all fields.")
@@ -89,7 +90,7 @@ class AssociatedUsersController:
             self.view.message_box("Error", "Invalid shoe size.")
             return
 
-        user.update_associated_user(user)
+        editing_user.update_associated_user(user_data)
         self.view.show_message("Success", "User updated successfully.")
         self.view.root.withdraw()
         self.associated_users_page(logged_user)

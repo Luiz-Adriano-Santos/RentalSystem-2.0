@@ -67,11 +67,11 @@ class RegisterAssociatedUserView:
 
     def return_button_action(self):
         self.root.withdraw()
-        self.controller.associated_users_page(self.user)
+        self.controller.associated_users_page(self.logged_user)
 
     def home_button_action(self):
         self.root.withdraw()
-        self.controller.return_guest_home(self.user)
+        self.controller.return_guest_home(self.logged_user)
 
     def create_buttons(self, parent):
         buttons = [

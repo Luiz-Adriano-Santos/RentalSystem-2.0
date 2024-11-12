@@ -201,7 +201,7 @@ class EmployeeUserEditView:
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        user = {
+        user_data = {
             'full_name': full_name,
             'gender': gender,
             'shoe_size': us_shoe_size,
@@ -210,7 +210,7 @@ class EmployeeUserEditView:
             'height': height
         }
 
-        self.controller.update_associated_user(self.logged_user, user)
+        self.controller.update_associated_user(self.logged_user, self.editing_user, user_data)
 
     def working_historic(self):
         messagebox.showinfo("Info", "Working History clicked")
