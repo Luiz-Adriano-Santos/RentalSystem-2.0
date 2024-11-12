@@ -37,16 +37,43 @@ class GuestEditView:
 
     def create_form_title(self, parent):
         title_frame = ctk.CTkFrame(parent, corner_radius=0, fg_color="white")
-        title_frame.pack(pady=20)
+        title_frame.pack(pady=10)
 
-        edit_label = ctk.CTkLabel(
+        title_frame.grid_columnconfigure(0, weight=0)
+        title_frame.grid_columnconfigure(1, weight=0)
+        title_frame.grid_columnconfigure(2, weight=0)
+
+        delete_button = ctk.CTkButton(
             title_frame,
-            text="Editar Perfil",
-            font=('Poppins Medium', 36, 'bold'),
+            text="Delete",
+            width=80,  
+            height=40,
+            font=('Poppins Medium', 14),  
+            text_color='white',
+            fg_color='#81c9d8',
+            command=self.delete_button_action
+        )
+        delete_button.grid(row=0, column=0, padx=5)
+
+        view_label = ctk.CTkLabel(
+            title_frame,
+            text="View Equipment",
+            font=('Poppins Medium', 24, 'bold'),  
             text_color='#8f8e8e'
         )
-        edit_label.grid(row=0, column=0, pady=10)
+        view_label.grid(row=0, column=1, padx=5)
 
+        return_button = ctk.CTkButton(
+            title_frame,
+            text="Return",
+            width=80,  
+            height=40,
+            font=('Poppins Medium', 14),  
+            text_color='white',
+            fg_color='#81c9d8',
+            command=self.return_button_action
+        )
+        return_button.grid(row=0, column=2, padx=5)
     def create_edit_user_form(self, parent):
         form_frame = ctk.CTkScrollableFrame(parent, corner_radius=0, fg_color="white", width=400)
         form_frame.pack(fill='y', expand=True)
@@ -112,7 +139,7 @@ class GuestEditView:
 
     def return_button_action(self):
         self.root.withdraw()
-        self.controller.registered_users_page()
+        self.controller.return_guest_home(self.user)
 
     def home_button_action(self):
         self.root.withdraw()
@@ -146,6 +173,9 @@ class GuestEditView:
     def show_message(self, title, message):
         messagebox.showinfo(title, message)
     
+    def delete_button_action(self):
+        self.controller.delete_user(self.user)
+
     def mainloop(self):
         self.root.mainloop()
     

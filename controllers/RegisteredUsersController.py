@@ -82,4 +82,8 @@ class RegisteredUsersController:
         user.delete_user()
         self.view.show_message("Success", "User deleted successfully.")
         self.view.root.withdraw()
-        self.registered_users_page()
+        if user.is_employee:
+            self.registered_users_page(user)
+        else:
+            self.controller.reset_login_fields()
+            self.controller.view.root.deiconify()
