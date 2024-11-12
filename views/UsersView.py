@@ -6,8 +6,8 @@ from views.common.DefaultLayout import initialize_window, create_default_backgro
     create_default_header
 
 
-class RegisteredUsersView:
-    def __init__(self, controller, users, is_associated_users=False, logged_user=None):
+class UsersView:
+    def __init__(self, controller, logged_user, users, is_associated_users=False):
         self.logged_user = logged_user
         self.controller = controller
         self.root = initialize_window()
@@ -110,9 +110,9 @@ class RegisteredUsersView:
 
     def on_card_click(self, user):
         if self.is_associated_users:
-            self.controller.open_associated_user_edit_page(user)
+            self.controller.open_associated_user_edit_page(self.logged_user, user)
         else:
-            self.controller.open_employee_user_edit_page(user)
+            self.controller.open_employee_user_edit_page(self.logged_user, user)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)
