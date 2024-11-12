@@ -11,7 +11,7 @@ class Request:
         self.timestamp = timestamp
         self.user = user
         self.boots = boots
-        self.employee = ''
+        self.employee = 'Not Assigned'
         self.helmet = helmet
         self.ski_board = ski_board
         self.associatedUser = self.get_associated_user(associatedName)

@@ -99,11 +99,11 @@ class RequestDetailsView:
         
         row = 20
 
-        if self.ski_board == 'Not Assigned':
+        if self.ski_board != "Not Requested":
 
             self.ski_board_length_entry = self.create_form_field(form_frame, "SKI/BOARD LENGTH", 20, self.ski_board)
 
-            self.ski_board_id_entry = self.create_form_field(form_frame, "SKI/BOARD ID)", 22, self.ski_board)
+            self.ski_board_id_entry = self.create_form_field(form_frame, "SKI/BOARD ID", 22, self.ski_board)
 
             row = 24 
 
@@ -114,22 +114,24 @@ class RequestDetailsView:
 
             row += 2
 
-        self.create_buttons(form_frame)
-
-        if self.boots == 'Not Assigned':
+        if self.boots == "Requested":
             
-            self.boots_id_entry = self.create_form_field(form_frame, "BOOTS ID", 20, self.boots)
+            self.boots_id_entry = self.create_form_field(form_frame, "BOOTS ID", row, self.boots)
 
             row += 2
         
-        if self.helmet == 'Not Assigned':
+        if self.helmet == "Requested":
 
-            self.helmet_id_entry = self.create_form_field(form_frame, "HELMET ID", 20, self.helmet)
+            self.helmet_id_entry = self.create_form_field(form_frame, "HELMET ID", row, self.helmet)
 
             row += 2
 
         self.employee_entry = self.create_form_field(form_frame, "EMPLOYEE", row, self.employee)
         self.employee_entry.configure(state="readonly")
+
+        row += 2
+
+        self.create_buttons(form_frame, row)
 
     def create_form_field(self, parent, label_text, row, user_value, entry_options=None):
         parent.grid_columnconfigure(0, minsize=120)
@@ -182,7 +184,7 @@ class RequestDetailsView:
         self.root.withdraw()
         self.request_details_controller.employee_home_page()
 
-    def create_buttons(self, parent):
+    def create_buttons(self, parent, row):
 
         buttons = []
 
@@ -207,7 +209,7 @@ class RequestDetailsView:
                 font=('Poppins Bold', 13, 'bold'),
                 fg_color='#81c9d8',
                 command=command
-            ).grid(row=23 + i, column=0, columnspan=2, pady=10)
+            ).grid(row=row + i, column=0, columnspan=2, pady=10)
 
     def cancel(self):
         confirm = messagebox.askyesno("Confirm",
