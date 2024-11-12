@@ -1,5 +1,6 @@
 import sqlite3
 import pickle
+from controllers.EquipmentsController import EquipmentsController
 from controllers.AssociatedUsersController import AssociatedUsersController
 from controllers.RegisteredUsersController import RegisteredUsersController
 from views.EmployeeHomeView import EmployeeHomeView
@@ -22,7 +23,8 @@ class HomeController:
         self.view.mainloop()
 
     def open_equipments_page(self):
-        pass
+        equipments_controller = EquipmentsController(self.login_controller)
+        equipments_controller.equipments_page()
 
     def logout(self):
         self.view.root.withdraw()
@@ -31,7 +33,6 @@ class HomeController:
 
     def open_registered_users_page(self, user):
         registered_users_controller = RegisteredUsersController(self.login_controller)
-        self.view.root.withdraw()
         registered_users_controller.registered_users_page(user)
 
     def open_associated_users_page(self, user):

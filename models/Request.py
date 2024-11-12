@@ -7,14 +7,14 @@ class Request:
         self.sport = sport
         self.timestamp = timestamp
         self.user = user
-        self.boots = boots
+        self.boots = ''
+        self.din = '' #self.calculate_din()
         self.employee = ''
         self.helmet = helmet
         self.ski_board = ski_board
         self.associatedName = associatedName     
-        self.din = self.calculate_din()
 
-    def calculate_din(self):
+    '''def calculate_din(self):
 
         if self.ski_board == 'Not Requested' or self.ski_board.type == 'BOARD':
             return ''
@@ -87,6 +87,7 @@ class Request:
                 return 'Error'
             else:
                 return tier[index]
+                '''
             
     def create_request(self):
         conn = sqlite3.connect('RentalSystem.db')

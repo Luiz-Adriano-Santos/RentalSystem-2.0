@@ -1,7 +1,7 @@
 from controllers.Utils import hash_password
 from models.User import User
 from views.UserEditView import EmployeeUserEditView
-from views.UsersView import RegisteredUsersView
+from views.UsersView import UsersView
 from views.GuestEditView import GuestEditView
 
 class RegisteredUsersController:
@@ -11,21 +11,21 @@ class RegisteredUsersController:
 
     def registered_users_page(self, user):
         users = user.get_all_users()
-        self.view = RegisteredUsersView(self, users)
+        self.view = UsersView(self, user, users)
         self.view.mainloop()
 
-    def open_employee_user_edit_page(self, user):
+    def open_employee_user_edit_page(self, logged_user, user):
         self.view.root.withdraw()
-        self.view = EmployeeUserEditView(self, user)
+        self.view = EmployeeUserEditView(self, logged_user, user)
         self.view.mainloop()
 
     def guest_edit_page(self, user):
         self.view = GuestEditView(self, user)  
         self.view.mainloop()
 
-    def return_employee_home(self):
+    def return_employee_home(self, user):
         self.view.root.withdraw()
-        self.controller.employee_page()
+        self.controller.employee_page(user)
     
     def return_guest_home(self, user):
         self.view.root.withdraw()
@@ -42,7 +42,6 @@ class RegisteredUsersController:
             self.return_guest_home(user)
 
     def update_user(self, user, full_name, new_password, password_confirmation, gender, shoe_size, age, is_employee, weight, height):
-        print(type(age), age)
         if not full_name or not gender or not age or not shoe_size or not weight or not height:
             self.view.show_message("Error", "All fields (except password) are required.")
             return False
@@ -78,8 +77,8 @@ class RegisteredUsersController:
         self.view.root.withdraw() 
         return True
 
-    def delete_user(self, user):
+    def delete_user(self, logged_user, user):
         user.delete_user()
         self.view.show_message("Success", "User deleted successfully.")
         self.view.root.withdraw()
-        self.registered_users_page()
+        self.registered_users_page(logged_user)

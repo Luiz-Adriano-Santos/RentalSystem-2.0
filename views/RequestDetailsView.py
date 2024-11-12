@@ -184,12 +184,14 @@ class RequestDetailsView:
 
     def create_buttons(self, parent):
 
-        if self.status_entry == 'SENT':
+        buttons = []
+
+        if self.status_entry.get() == 'SENT':
             buttons = [
                 ("Cancel", self.cancel),
                 ("In Progress", self.in_progress)
             ]
-        elif self.status_entry == 'IN_PROGRESS':
+        elif self.status_entry.get() == 'IN_PROGRESS':
             buttons = []
             if self.ski_board != 'Not Requested':
                 buttons.append(("Return Skis/Board", self.return_ski_board))
@@ -208,7 +210,12 @@ class RequestDetailsView:
             ).grid(row=23 + i, column=0, columnspan=2, pady=10)
 
     def cancel(self):
-        pass
+        confirm = messagebox.askyesno("Confirm",
+                                      "Are you sure you want to change the status of this request to CANCELED?")
+        if confirm:
+            self.request_details_controller.cancel_request()
+        else:
+            self.show_message('Canceled', "Request status change canceled.")
 
     def in_progress(self):
         pass
