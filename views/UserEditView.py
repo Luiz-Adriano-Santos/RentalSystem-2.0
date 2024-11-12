@@ -5,24 +5,25 @@ from views.common.DefaultLayout import create_default_background, initialize_win
 
 
 class EmployeeUserEditView:
-    def __init__(self, controller, user, is_associated_user=False):
+    def __init__(self, controller, logged_user, editing_user, is_associated_user=False):
         self.controller = controller
         self.root = initialize_window()
         self.is_associated_user = is_associated_user
 
-        self.user = user
-        self.full_name_entry = user.full_name
+        self.logged_user = logged_user
+        self.editing_user = editing_user
+        self.full_name_entry = editing_user.full_name
         self.password_entry = ''
         self.password_confirmation_entry = ''
-        self.gender_entry = user.gender
-        self.us_shoe_size_entry = user.shoe_size
-        self.age_entry = user.age
-        self.weight_entry = user.weight
-        self.height_entry = user.height
+        self.gender_entry = editing_user.gender
+        self.us_shoe_size_entry = editing_user.shoe_size
+        self.age_entry = editing_user.age
+        self.weight_entry = editing_user.weight
+        self.height_entry = editing_user.height
 
         if not self.is_associated_user:
-            self.email_entry = user.email
-            self.is_employee_entry = user.is_employee
+            self.email_entry = editing_user.email
+            self.is_employee_entry = editing_user.is_employee
 
         self.setup_ui()
 
@@ -129,23 +130,23 @@ class EmployeeUserEditView:
         confirm = messagebox.askyesno("Confirm Delete",
                                       "Are you sure you want to delete this user?")
         if confirm:
-            self.controller.delete_user(self.user)
+            self.controller.delete_user(self.logged_user, self.editing_user)
         else:
             self.show_message('Error', "User deletion canceled.")
 
     def return_button_action(self):
         self.root.withdraw()
         if self.is_associated_user:
-            self.controller.associated_users_page(self.user)
+            self.controller.associated_users_page(self.logged_user)
         else:
-            self.controller.registered_users_page(self.user)
+            self.controller.registered_users_page(self.logged_user)
 
     def home_button_action(self):
         self.root.withdraw()
         if self.is_associated_user:
-            self.controller.return_guest_home(self.user)
+            self.controller.return_guest_home(self.logged_user)
         else:
-            self.controller.return_employee_home(self.user)
+            self.controller.return_employee_home(self.logged_user)
 
     def create_associated_users_buttons(self, parent):
         buttons = [
@@ -190,17 +191,26 @@ class EmployeeUserEditView:
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        self.controller.update_user_as_employee(self.user, full_name, new_password, password_confirmation, gender, us_shoe_size, age, is_employee, weight, height)
+        self.controller.update_user_as_employee(self.editing_user, full_name, new_password, password_confirmation, gender, us_shoe_size, age, is_employee, weight, height)
 
     def save_account_associated(self):
-        full_name = self.full_name_entry
+        full_name = self.full_name_entry.get()
         gender = self.gender_entry.get()
         us_shoe_size = self.us_shoe_size_entry.get()
         age = self.age_entry.get()
         weight = self.weight_entry.get()
         height = self.height_entry.get()
 
-        self.controller.update_associated_user()
+        user_data = {
+            'full_name': full_name,
+            'gender': gender,
+            'shoe_size': us_shoe_size,
+            'age': age,
+            'weight': weight,
+            'height': height
+        }
+
+        self.controller.update_associated_user(self.logged_user, self.editing_user, user_data)
 
     def working_historic(self):
         messagebox.showinfo("Info", "Working History clicked")

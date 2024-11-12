@@ -214,6 +214,7 @@ class RequestDetailsView:
                                       "Are you sure you want to change the status of this request to CANCELED?")
         if confirm:
             self.request_details_controller.cancel_request()
+            self.return_button_action()
         else:
             self.show_message('Canceled', "Request status change canceled.")
 

@@ -1,16 +1,23 @@
+import sqlite3
+import pickle
+from models.enums import StatusEnum
+import random
+
 class Request:
-    def __init__(self, status, sport, timestamp, user):
+    def __init__(self, status, sport, timestamp, user, boots, helmet, ski_board, associatedName ):
+        self.id = random.randint(1,999)
         self.status = status
         self.sport = sport
         self.timestamp = timestamp
         self.user = user
-        self.boots = ''
+        self.boots = boots
         self.din = '' #self.calculate_din()
         self.employee = ''
-        self.helmet = ''
-        self.ski_board = ''
-'''
-    def calculate_din(self):
+        self.helmet = helmet
+        self.ski_board = ski_board
+        self.associatedName = associatedName     
+    
+    '''def calculate_din(self):
 
         if self.ski_board == 'Not Requested' or self.ski_board.type == 'BOARD':
             return ''
@@ -82,4 +89,52 @@ class Request:
             if tier[index] == 0:
                 return 'Error'
             else:
-                return tier[index]'''
+                return tier[index]
+                '''
+            
+    def create_request(self):
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+
+        repeated_id = True
+
+        while repeated_id:
+            
+            try:
+                cursor.execute("INSERT INTO requests (id, emailUser, userAssociatedName, request) VALUES (?, ?, ?, ?)", (self.id, self.user.email, self.associatedName, pickle.dumps(self)))
+
+                repeated_id = False
+
+            except:
+                self.id = random.randint(1,999)
+
+        conn.commit()
+        conn.close()
+
+    @classmethod
+    def get_requests(cls):
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT request FROM requests")
+
+        all_requests = cursor.fetchall()
+        conn.close()
+
+        requests_list = []
+        for request_data in all_requests:
+            request = pickle.loads(request_data[0])
+            requests_list.append(request)
+        
+        return requests_list
+    
+    def cancel(self):
+        self.status = StatusEnum.CANCELED.value
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(self), self.id))
+
+        conn.commit()
+        conn.close()

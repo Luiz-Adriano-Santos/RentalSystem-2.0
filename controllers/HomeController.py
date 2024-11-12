@@ -4,6 +4,9 @@ from controllers.RegisteredUsersController import RegisteredUsersController
 from views.EmployeeHomeView import EmployeeHomeView
 from views.GuestHomeView import GuestHomeView
 from controllers.RequestDetailsController import RequestDetailsController
+from models.Request import Request
+from models.enums import StatusEnum
+from datetime import datetime
 
 class HomeController:
     def __init__(self, login_controller):
@@ -41,3 +44,43 @@ class HomeController:
     def open_request_details_page(self, request, user):
         self.view.root.withdraw()
         RequestDetailsController(self, request, user)
+
+    def get_usersAssociated(self, user):
+        return AssociatedUsersController.get_all_associated_users(self, user)
+      
+    def register_request(self, for_who, sport, includes_skis, includes_boots, includes_helmet, user):
+        
+        if not sport:
+            GuestHomeView.message_box('Error', 'select at least 1 sport in the (SPORT) field')
+            return
+        if not for_who:
+            GuestHomeView.message_box('Error', 'select at least 1 person in the (FOR WHO) field')
+            return
+        
+        if (for_who != user.full_name):
+            associatedName = for_who
+        else:
+            associatedName = None
+        
+        if (includes_skis == 1):
+            includes_skis = "Requested"
+        else:
+            includes_skis = "Not Requested"
+        
+        if (includes_boots == 1):
+            includes_boots = "Requested"
+        else:
+            includes_boots = "Not Requested"
+        
+        if (includes_helmet == 1):
+            includes_helmet = "Requested"
+        else:
+            includes_helmet = "Not Requested"
+
+        timestamp = datetime.now().strftime('%m/%d/%Y - %I:%M %p')
+
+        Request(StatusEnum.SENT.value, sport, timestamp, user, includes_boots, includes_helmet, includes_skis, associatedName).create_request()
+        GuestHomeView.message_box('Success', 'Request submitted successfully!')
+    
+    def get_requests(self):
+        return Request.get_requests()

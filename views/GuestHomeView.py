@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from tkinter import messagebox
 from views.common.DefaultLayout import create_default_background, initialize_window
 
 class GuestHomeView:
@@ -55,36 +56,36 @@ class GuestHomeView:
         )
         subtitle_label.grid(row=1, column=0, pady=(0, 10), padx=20, sticky='w')
 
-        label_for_who = ctk.CTkLabel(
+        self.label_for_who = ctk.CTkLabel(
             form_frame,
             text="FOR WHO?",
             font=('DM Sans', 10),
             text_color='#8f8e8e',
             anchor="w"
         )
-        label_for_who.grid(row=2, column=0, sticky='w', pady=(5, 2), padx=20)
+        self.label_for_who.grid(row=2, column=0, sticky='w', pady=(5, 2), padx=20)
 
-        combo_for_who = ctk.CTkComboBox(
+        self.combo_for_who = ctk.CTkComboBox(
             form_frame,
             width=200,
             fg_color='lightgray',
             border_width=0,
             text_color='#4a4a4a',
-            values=["lista", "de", "opções"]
+            values=[self.user.full_name] + self.controller.get_usersAssociated(self.user),
         )
-        combo_for_who.set("")
-        combo_for_who.grid(row=3, column=0, pady=(0, 10), padx=20, sticky='w')
+        self.combo_for_who.set("")
+        self.combo_for_who.grid(row=3, column=0, pady=(0, 10), padx=20, sticky='w')
 
-        label_sport = ctk.CTkLabel(
+        self.label_sport = ctk.CTkLabel(
             form_frame,
             text="SPORT",
             font=('DM Sans', 10),
             text_color='#8f8e8e',
             anchor="w"
         )
-        label_sport.grid(row=4, column=0, sticky='w', pady=(5, 2), padx=20)
+        self.label_sport.grid(row=4, column=0, sticky='w', pady=(5, 2), padx=20)
 
-        combo_sport = ctk.CTkComboBox(
+        self.combo_sport = ctk.CTkComboBox(
             form_frame,
             width=200,
             fg_color='lightgray',
@@ -92,8 +93,8 @@ class GuestHomeView:
             text_color='#4a4a4a',
             values=["SKI", "SNOWBOARD"]
         )
-        combo_sport.set("")
-        combo_sport.grid(row=5, column=0, pady=(0, 10), padx=20, sticky='w')
+        self.combo_sport.set("")
+        self.combo_sport.grid(row=5, column=0, pady=(0, 10), padx=20, sticky='w')
 
         includes_label = ctk.CTkLabel(
             form_frame,
@@ -103,7 +104,7 @@ class GuestHomeView:
         )
         includes_label.grid(row=6, column=0, sticky='w', pady=(5, 2), padx=20)
 
-        skis_checkbox = ctk.CTkCheckBox(
+        self.skis_checkbox = ctk.CTkCheckBox(
             form_frame,
             text="SKIS/BOARD",
             fg_color='#8f8e8e',
@@ -111,9 +112,9 @@ class GuestHomeView:
             height=20,
             width=20
         )
-        skis_checkbox.grid(row=7, column=0, sticky='w', padx=20, pady=(0, 5))
+        self.skis_checkbox.grid(row=7, column=0, sticky='w', padx=20, pady=(0, 5))
 
-        boots_checkbox = ctk.CTkCheckBox(
+        self.boots_checkbox = ctk.CTkCheckBox(
             form_frame,
             text="BOOTS",
             fg_color='#8f8e8e',
@@ -121,9 +122,9 @@ class GuestHomeView:
             height=20,
             width=20
         )
-        boots_checkbox.grid(row=8, column=0, sticky='w', padx=20, pady=(0, 5))
+        self.boots_checkbox.grid(row=8, column=0, sticky='w', padx=20, pady=(0, 5))
 
-        helmet_checkbox = ctk.CTkCheckBox(
+        self.helmet_checkbox = ctk.CTkCheckBox(
             form_frame,
             text="HELMET",
             fg_color='#8f8e8e',
@@ -131,17 +132,17 @@ class GuestHomeView:
             height=20,
             width=20
         )
-        helmet_checkbox.grid(row=9, column=0, sticky='w', padx=20, pady=(0, 10))
+        self.helmet_checkbox.grid(row=9, column=0, sticky='w', padx=20, pady=(0, 10))
 
         submit_button = ctk.CTkButton(
             form_frame,
             text="Submit",
             fg_color='#4094a5',
             width=200,
-            height=30
+            height=30,
+            command=self.submit_rental_request
         )
         submit_button.grid(row=10, column=0, pady=(20, 0), padx=20)
-
 
     def create_user_home_buttons(self, parent):
         button_frame = ctk.CTkFrame(parent, corner_radius=10, fg_color="white")
@@ -179,6 +180,18 @@ class GuestHomeView:
             command=self.open_associated_users)
 
         associated_users_button.grid(row=2, column=0, padx=10, pady=15)
+
+    def submit_rental_request(self):
+        for_who = self.combo_for_who.get()   
+        sport = self.combo_sport.get() 
+        includes_skis = self.skis_checkbox.get()
+        includes_boots = self.boots_checkbox.get() 
+        includes_helmet = self.helmet_checkbox.get()   
+
+        self.controller.register_request(for_who, sport, includes_skis, includes_boots, includes_helmet, self.user)
+        
+    def message_box(title, message):
+        messagebox.showinfo(title, message)
 
     def log_out_button_action(self):
         self.controller.logout()
