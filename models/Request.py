@@ -7,7 +7,7 @@ class Request:
         self.sport = sport
         self.timestamp = timestamp
         self.user = user
-        self.boots = ''
+        self.boots = boots
         self.din = '' #self.calculate_din()
         self.employee = ''
         self.helmet = helmet
