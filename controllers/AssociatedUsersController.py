@@ -24,13 +24,13 @@ class AssociatedUsersController:
         self.view.root.withdraw()
         self.controller.guest_page(user)
 
-    def create_associated_user(self, logged_user, user):
-        full_name = user["full_name"]
-        age = user["age"]
-        gender = user["gender"]
-        height = user["height"]
-        weight = user["weight"]
-        shoe_size = user["shoe_size"]
+    def create_associated_user(self, logged_user, user_data):
+        full_name = user_data["full_name"]
+        age = user_data["age"]
+        gender = user_data["gender"]
+        height = user_data["height"]
+        weight = user_data["weight"]
+        shoe_size = user_data["shoe_size"]
         parent_user_email = logged_user.email
 
         if not all([full_name, age, gender, height, weight, shoe_size]):
