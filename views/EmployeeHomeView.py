@@ -101,30 +101,30 @@ class EmployeeHomeView:
 
         card_frame.grid_columnconfigure(0, weight=1)
 
-        name_label = ctk.CTkLabel(
+        timestamp_label = ctk.CTkLabel(
             card_frame,
             text=request.timestamp,
             bg_color='#81c9d8',
             font=('Poppins Medium', 17, 'bold'),
             text_color='#8f8e8e'
         )
-        name_label.grid(row=0, column=0, sticky="nsew")
+        timestamp_label.grid(row=0, column=0, sticky="nsew")
 
-        gender_label = ctk.CTkLabel(
+        name_label = ctk.CTkLabel(
             card_frame,
-            text=request.user.full_name,
+            text=request.associatedUser.full_name,
             font=('Poppins Medium', 15),
             text_color='#8f8e8e'
         )
-        gender_label.grid(row=1, column=0, sticky="w", padx=10, pady=5)
+        name_label.grid(row=1, column=0, sticky="w", padx=10, pady=5)
 
-        age_label = ctk.CTkLabel(
+        sport_label = ctk.CTkLabel(
             card_frame,
             text=request.sport,
             font=('Poppins Medium', 15),
             text_color='#8f8e8e'
         )
-        age_label.grid(row=2, column=0, sticky="w", padx=10, pady=5)
+        sport_label.grid(row=2, column=0, sticky="w", padx=10, pady=5)
 
     def equipments_button_action(self):
         self.close()

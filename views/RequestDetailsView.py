@@ -10,7 +10,7 @@ class RequestDetailsView:
         self.request = request
         self.root = initialize_window()
 
-        self.user = request.user
+        self.user = self.request.associatedUser
         self.status_entry = request.status
         self.sport_entry = request.sport
         self.timestamp_entry = request.timestamp

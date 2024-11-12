@@ -63,7 +63,10 @@ class HomeController:
             associatedName = None
         
         if (includes_skis == 1):
-            includes_skis = "Requested"
+            if sport == 'SKI':
+                includes_skis = "Skis Requested"
+            else:
+                includes_skis = "Board Requestes"
         else:
             includes_skis = "Not Requested"
         
