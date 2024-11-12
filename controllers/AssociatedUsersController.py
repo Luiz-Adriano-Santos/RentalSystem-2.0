@@ -106,3 +106,7 @@ class AssociatedUsersController:
         self.view.root.withdraw()
         self.view = EmployeeUserEditView(self, logged_user, user, is_associated_user=True)
         self.view.mainloop()
+        
+    def get_all_associated_users(self, user):
+        associated_users = UserAssociated.get_associated_users(user.email)
+        return [user_associated.full_name for user_associated in associated_users]

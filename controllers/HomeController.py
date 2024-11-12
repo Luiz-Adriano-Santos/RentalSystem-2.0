@@ -47,27 +47,11 @@ class HomeController:
         self.view.root.withdraw()
         RequestDetailsController(self, request, user)
 
-#TESTE POIS AINDA NÃO TEM A PARTE DE ASSOCIATED USERS
-
     def get_usersAssociated(self, user):
-        conn = sqlite3.connect('RentalSystem.db')
-        cursor = conn.cursor()
-
-        cursor.execute('''
-        SELECT userAssociated FROM associatedUsers WHERE emailUser = ?
-        ''', (user.email,))
-
-        all_users = cursor.fetchall()
-        conn.close()
-
-        users_list = []
-        for user_data in all_users:
-            user = pickle.loads(user_data[0])
-            users_list.append(user.full_name)
-
-        return users_list
+        return AssociatedUsersController.get_all_associated_users(self, user)
       
-    def register_request(self, for_who, sport, includes_skis, includes_boots, includes_helmet, user): #Self, status, sport, timestamp, user, boots, helmet, ski_board       
+    def register_request(self, for_who, sport, includes_skis, includes_boots, includes_helmet, user):
+        
         if not sport:
             GuestHomeView.message_box('Error', 'select at least 1 sport in the (SPORT) field')
             return
@@ -78,7 +62,7 @@ class HomeController:
         if (for_who != user.full_name):
             associatedName = for_who
         else:
-            associatedName = None 
+            associatedName = None
         
         if (includes_skis == 1):
             includes_skis = "Requested"
@@ -95,7 +79,7 @@ class HomeController:
         else:
             includes_helmet = "Not Requested"
 
-        timestamp = datetime.now().timestamp()
-        request = Request(StatusEnum.SENT, sport, timestamp, user, includes_boots, includes_helmet, includes_skis, associatedName)
-        self.open_request_details_page(request, user)
-        self.view.message_box('Success', 'Request submitted successfully!')
+        timestamp = datetime.now().strftime('%m/%d/%Y - %I:%M %p')
+
+        Request(StatusEnum.SENT.value, sport, timestamp, user, includes_boots, includes_helmet, includes_skis, associatedName).create_request()
+        GuestHomeView.message_box('Success', 'Request submitted successfully!')

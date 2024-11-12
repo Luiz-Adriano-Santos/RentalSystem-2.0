@@ -189,8 +189,8 @@ class GuestHomeView:
         includes_helmet = self.helmet_checkbox.get()   
 
         self.controller.register_request(for_who, sport, includes_skis, includes_boots, includes_helmet, self.user)
-
-    def message_box(self, title, message):
+        
+    def message_box(title, message):
         messagebox.showinfo(title, message)
 
     def log_out_button_action(self):

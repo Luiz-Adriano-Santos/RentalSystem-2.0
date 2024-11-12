@@ -13,7 +13,7 @@ class Request:
         self.helmet = helmet
         self.ski_board = ski_board
         self.associatedName = associatedName     
-
+    
     '''def calculate_din(self):
 
         if self.ski_board == 'Not Requested' or self.ski_board.type == 'BOARD':
