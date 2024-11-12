@@ -4,7 +4,7 @@ from views.common.DefaultLayout import create_default_background, initialize_win
     create_form_field, create_gender_select
 
 
-class EmployeeUserEditView:
+class UserEditView:
     def __init__(self, controller, logged_user, editing_user, is_associated_user=False):
         self.controller = controller
         self.root = initialize_window()
