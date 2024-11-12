@@ -1,8 +1,11 @@
 import sqlite3
 import pickle
+from models.enums import StatusEnum
+import random
 
 class Request:
     def __init__(self, status, sport, timestamp, user, boots, helmet, ski_board, associatedName ):
+        self.id = random.randint(1,999)
         self.status = status
         self.sport = sport
         self.timestamp = timestamp
@@ -92,8 +95,18 @@ class Request:
     def create_request(self):
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()
-        
-        cursor.execute("INSERT INTO requests (emailUser, userAssociatedName, request) VALUES (?, ?, ?)", (self.user.email, self.associatedName, pickle.dumps(self)))
+
+        repeated_id = True
+
+        while repeated_id:
+            
+            try:
+                cursor.execute("INSERT INTO requests (id, emailUser, userAssociatedName, request) VALUES (?, ?, ?, ?)", (self.id, self.user.email, self.associatedName, pickle.dumps(self)))
+
+                repeated_id = False
+
+            except:
+                self.id = random.randint(1,999)
 
         conn.commit()
         conn.close()
@@ -114,3 +127,14 @@ class Request:
             requests_list.append(request)
         
         return requests_list
+    
+    def cancel(self):
+        self.status = StatusEnum.CANCELED.value
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(self), self.id))
+
+        conn.commit()
+        conn.close()
