@@ -66,7 +66,7 @@ class HomeController:
             if sport == 'SKI':
                 includes_skis = "Skis Requested"
             else:
-                includes_skis = "Board Requestes"
+                includes_skis = "Board Requested"
         else:
             includes_skis = "Not Requested"
         
