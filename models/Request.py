@@ -59,7 +59,7 @@ class Request:
                 din_w = 2
             elif 21 < self.associatedUser.weight <= 25:
                 din_w = 3
-            elif 25 < self.associatedUser.weight <= 230:
+            elif 25 < self.associatedUser.weight <= 23:
                 din_w = 4
             elif 30 < self.associatedUser.weight <= 35:
                 din_w = 5
@@ -69,7 +69,7 @@ class Request:
                 din_w = 7
             elif 48 < self.associatedUser.weight <= 57:
                 din_w = 8
-            elif 57 < self.associatedUser.associatedUser.weight <= 66:
+            elif 57 < self.associatedUser.weight <= 66:
                 din_w = 9
             elif 66 < self.associatedUser.weight <= 78:
                 din_w = 10
