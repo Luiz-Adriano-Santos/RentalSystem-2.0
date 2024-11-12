@@ -31,7 +31,8 @@ class EquipmentsController:
                 return
             Equipment.delete_equipment(equipment_id=equipment.equipment_id)
             self.view.show_message("Success", "Equipment deleted successfully.")
-            self.edit_equipment_page()
+            self.view.root.withdraw()
+            self.equipments_page()
 
         except Exception as e:
             self.view.show_message("Error", f"Error deleting equipment: {str(e)}")
