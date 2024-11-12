@@ -139,9 +139,26 @@ class RequestDetailsView:
         
         if self.helmet == "Requested":
 
-            self.helmet_id_entry = self.create_form_field(form_frame, "HELMET ID", row, self.helmet)
+            self.label_helmet = ctk.CTkLabel(
+                form_frame,
+                text="HELMET ID",
+                text_color='#8f8e8e',
+                anchor="w"
+            )
+            self.label_helmet.grid(row=row, column=0, sticky='w', pady=(5, 2), padx=10)
 
-            row += 2
+            self.combo_helmet = ctk.CTkComboBox(
+                form_frame,
+                width=200,
+                fg_color='lightgray',
+                border_width=0,
+                text_color='#4a4a4a',
+                values=self.request_details_controller.get_helmets(),
+            )
+            self.combo_helmet.set("")
+            self.combo_helmet.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
+
+            row += 4
 
         self.employee_entry = self.create_form_field(form_frame, "EMPLOYEE", row, self.employee)
         self.employee_entry.configure(state="readonly")
@@ -169,31 +186,6 @@ class RequestDetailsView:
         )
         entry.grid(row=row + 1, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='nsew')
         entry.insert(0, user_value)
-
-        return entry
-
-    #CRIAR SELECTS
-    def create_gender_select(self, parent, label_text, row, default_value=GenderEnum.MALE.value):
-        gender_options = [GenderEnum.MALE.value, GenderEnum.FEMALE.value]
-        entry = ctk.StringVar(value=default_value)
-
-        ctk.CTkLabel(parent, text=label_text, text_color='#8f8e8e').grid(
-            row=row, column=0, columnspan=2, padx=10, pady=(5, 2), sticky='w'
-        )
-
-        gender_select = ctk.CTkOptionMenu(
-            parent,
-            variable=entry,
-            fg_color='lightgray',
-            button_color='lightgray',
-            button_hover_color='gray',
-            dropdown_fg_color='lightgray',
-            dropdown_text_color='#4a4a4a',
-            dropdown_hover_color='gray',
-            text_color='#4a4a4a',
-            values=gender_options
-        )
-        gender_select.grid(row=row + 1, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='nsew')
 
         return entry
 
