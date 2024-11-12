@@ -1,14 +1,18 @@
+import sqlite3
+import pickle
+
 class Request:
-    def __init__(self, status, sport, timestamp, user, boots, helmet, ski_board):
+    def __init__(self, status, sport, timestamp, user, boots, helmet, ski_board, associatedName ):
         self.status = status
         self.sport = sport
         self.timestamp = timestamp
         self.user = user
         self.boots = boots
-        self.din = self.calculate_din()
         self.employee = ''
         self.helmet = helmet
         self.ski_board = ski_board
+        self.associatedName = associatedName     
+        self.din = self.calculate_din()
 
     def calculate_din(self):
 
@@ -83,3 +87,12 @@ class Request:
                 return 'Error'
             else:
                 return tier[index]
+            
+    def create_request(self):
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("INSERT INTO requests (emailUser, userAssociatedName, request) VALUES (?, ?, ?)", (self.user.email, self.associatedName, pickle.dumps(self)))
+
+        conn.commit()
+        conn.close()
