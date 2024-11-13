@@ -9,8 +9,9 @@ from models.enums import StatusEnum
 from datetime import datetime
 
 class HomeController:
-    def __init__(self, login_controller):
+    def __init__(self, login_controller, user):
         self.login_controller = login_controller
+        self.logged_employee = user
 
     def open_employee_home_page(self, user):
         self.view = EmployeeHomeView(self, user)
@@ -43,7 +44,7 @@ class HomeController:
 
     def open_request_details_page(self, request, user):
         self.view.root.withdraw()
-        RequestDetailsController(self, request, user)
+        RequestDetailsController(self, request, user, self.logged_employee)
 
     def get_usersAssociated(self, user):
         return AssociatedUsersController.get_all_associated_users(self, user)

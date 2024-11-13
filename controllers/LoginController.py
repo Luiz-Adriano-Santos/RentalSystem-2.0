@@ -30,11 +30,11 @@ class LoginController:
         self.view.mainloop()
 
     def guest_page(self, user):
-        employee_home_controller = HomeController(self)
+        employee_home_controller = HomeController(self, user)
         employee_home_controller.open_guest_home_page(user)
 
     def employee_page(self, user):
-        employee_home_controller = HomeController(self)
+        employee_home_controller = HomeController(self, user)
         employee_home_controller.open_employee_home_page(user)
 
     def reset_login_fields(self):

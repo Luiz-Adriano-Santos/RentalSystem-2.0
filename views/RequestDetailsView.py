@@ -115,7 +115,7 @@ class RequestDetailsView:
                 fg_color='lightgray',
                 border_width=0,
                 text_color='#4a4a4a',
-                values=[128, 136, 144, 152, 160, 168, 176],
+                values=['128', '136', '144', '152', '160', '168', '176'],
             )
             self.combo_ski_board_length.set("")
             self.combo_ski_board_length.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
@@ -157,7 +157,7 @@ class RequestDetailsView:
                 fg_color='lightgray',
                 border_width=0,
                 text_color='#4a4a4a',
-                values=[110, 120, 130, 140, 150, 160],
+                values=['110', '120', '130', '140', '150', '160'],
             )
             self.combo_ski_board_length.set("")
             self.combo_ski_board_length.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
@@ -306,7 +306,21 @@ class RequestDetailsView:
             self.show_message('Canceled', "Request status change canceled.")
 
     def in_progress(self):
-        pass
+        
+        if self.ski_board != 'Not Requested' and not self.combo_ski_board_id.get():
+            self.show_message('ERROR', 'You need to select a ski/board')
+            return
+        
+        if self.helmet != 'Not Requested' and not self.combo_helmet.get():
+            self.show_message('ERROR', 'You need to select a helmet')
+            return
+        
+        if self.boots != 'Not Requested' and not self.combo_boots.get():
+            self.show_message('ERROR', 'You need to select a pair of boots')
+            return
+        
+        self.request_details_controller.in_progress_request(self.combo_ski_board_id.get(), self.combo_helmet.get(), self.combo_boots.get())
+        self.return_button_action()
 
     def return_ski_board(self):
         pass

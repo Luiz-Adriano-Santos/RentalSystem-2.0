@@ -1,10 +1,11 @@
 from views.RequestDetailsView import RequestDetailsView
 
 class RequestDetailsController:
-    def __init__(self, employee_home_controller, request, user):
+    def __init__(self, employee_home_controller, request, user, logged_employee):
         self.employee_home_controller = employee_home_controller
         self.user = user
         self.request = request
+        self.logged_employee = logged_employee
         self.view = RequestDetailsView(self, request).mainloop()
     
     def employee_home_page(self):
@@ -21,3 +22,6 @@ class RequestDetailsController:
 
     def cancel_request(self):
         self.request.cancel()
+    
+    def in_progress_request(self, ski_board, helmet, boots):
+        self.request.in_progress(ski_board, helmet, boots, self.logged_employee)

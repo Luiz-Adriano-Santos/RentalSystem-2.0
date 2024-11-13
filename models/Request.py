@@ -208,6 +208,11 @@ class Request:
     
     def get_skis_boards(self, length):
 
+        if self.sport == 'SKI':
+            equipment_type = 'Ski'
+        else:
+            equipment_type = 'Snowboard'
+
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()
         
@@ -219,7 +224,7 @@ class Request:
         available_skis_boards_list = []
         for equipment_data in equipments:
             equipment = pickle.loads(equipment_data[0])
-            if equipment.equipment_type == 'Ski' and equipment.size == str(length):
+            if equipment.equipment_type == equipment_type and equipment.size == length:
                 for request in self.get_requests():
                     if request.status == "IN_PROGRESS" and request.ski_board == equipment.equipment_id:
                         available = False
@@ -229,3 +234,18 @@ class Request:
                     available_skis_boards_list.append(equipment.equipment_id)
         
         return available_skis_boards_list
+    
+    def in_progress(self, ski_board, helmet, boots, employee):
+        self.status = StatusEnum.IN_PROGRESS.value
+        self.employee = employee.full_name
+        self.ski_board = ski_board
+        self.helmet = helmet
+        self.boots = boots
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(self), self.id))
+
+        conn.commit()
+        conn.close()
