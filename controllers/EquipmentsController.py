@@ -51,7 +51,8 @@ class EquipmentsController:
             date = datetime.datetime.now().strftime('%Y-%m-%d')
             Equipment(id, type, size, date).create_equipment()
             self.view.show_message("Success", "Equipment registered successfully.")
-            self.view.return_to_equipments_home()
+            self.view.root.withdraw()
+            self.equipments_page()
 
         except Exception as e:
             self.view.show_message("Error", f"Error registering equipment: {str(e)}")
