@@ -12,6 +12,7 @@ class EquipmentRegistrationView:
         self.type_entry = ""
         self.id_entry = ""
         self.size_entry = ""
+        self.size_dropdown = None
 
         self.setup_ui()
 
@@ -63,9 +64,13 @@ class EquipmentRegistrationView:
         form_frame = ctk.CTkFrame(parent, corner_radius=0, fg_color="white", width=400)
         form_frame.pack(fill='y', expand=True)
 
-        self.type_entry = self.create_dropdown_field(form_frame, "TYPE", 2, ["Ski", "Snowboard", "Helmet", "Boot"])
+        self.type_entry, type_dropdown = self.create_dropdown_field(form_frame, "TYPE", 2, ["Ski", "Snowboard", "Helmet", "Boot"])
+        
+        self.size_entry, self.size_dropdown = self.create_dropdown_field(form_frame, "SIZE", 6, ["128", "136", "144", "152", "160", "168", "176"])
+        
+        self.type_entry.trace("w", self.update_size_options)
+
         self.id_entry = self.create_form_field(form_frame, "ID", 4, self.id_entry)
-        self.size_entry = self.create_dropdown_field(form_frame, "SIZE", 6, ["4", "5", "6", "7", "8", "9", "10", "11", "12", "13"])
 
         self.create_buttons(form_frame)
 
@@ -99,7 +104,7 @@ class EquipmentRegistrationView:
             row=row, column=0, columnspan=2, sticky='w', padx=10, pady=(5, 2)
         )
 
-        dropdown_value = ctk.StringVar(value=options[0])
+        dropdown_value = ctk.StringVar(value=options[0] if options else "")
         dropdown = ctk.CTkOptionMenu(
             parent,
             variable=dropdown_value,
@@ -114,7 +119,23 @@ class EquipmentRegistrationView:
         )
         dropdown.grid(row=row + 1, column=0, columnspan=2, padx=10, pady=(0, 10), sticky='nsew')
 
-        return dropdown_value
+        return dropdown_value, dropdown
+
+    def update_size_options(self, *args):
+        type_selected = self.type_entry.get()
+        if type_selected == "Ski":
+            new_options = ["128", "136", "144", "152", "160", "168", "176"]
+        elif type_selected == "Snowboard":
+            new_options = ["110", "120", "130", "140", "150", "160"]
+        elif type_selected == "Helmet":
+            new_options = ["Unique"]
+        elif type_selected == "Boot":
+            new_options = ["32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"]
+        else:
+            new_options = []
+
+        self.size_dropdown.configure(values=new_options)
+        self.size_entry.set(new_options[0]) 
 
     def create_buttons(self, parent):
         save_button = ctk.CTkButton(

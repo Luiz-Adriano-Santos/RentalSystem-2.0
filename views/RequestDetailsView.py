@@ -103,7 +103,7 @@ class RequestDetailsView:
 
             self.label_ski_board_length = ctk.CTkLabel(
                 form_frame,
-                text="SKI LENGHT",
+                text="SKI LENGTH",
                 text_color='#8f8e8e',
                 anchor="w"
             )
@@ -116,6 +116,7 @@ class RequestDetailsView:
                 border_width=0,
                 text_color='#4a4a4a',
                 values=['128', '136', '144', '152', '160', '168', '176'],
+                command=lambda length: self.update_ski_board_ids(length)
             )
             self.combo_ski_board_length.set("")
             self.combo_ski_board_length.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
@@ -134,7 +135,6 @@ class RequestDetailsView:
                 fg_color='lightgray',
                 border_width=0,
                 text_color='#4a4a4a',
-                values=self.request_details_controller.get_skis_boards(self.combo_ski_board_length.get()),
             )
             self.combo_ski_board_id.set("")
             self.combo_ski_board_id.grid(row=row+6, column=0, pady=(0, 10), padx=10, sticky='w')
@@ -145,7 +145,7 @@ class RequestDetailsView:
 
             self.label_ski_board_length = ctk.CTkLabel(
                 form_frame,
-                text="BOARD LENGHT",
+                text="BOARD LENGTH",
                 text_color='#8f8e8e',
                 anchor="w"
             )
@@ -158,6 +158,7 @@ class RequestDetailsView:
                 border_width=0,
                 text_color='#4a4a4a',
                 values=['110', '120', '130', '140', '150', '160'],
+                command=lambda length: self.update_ski_board_ids(length)
             )
             self.combo_ski_board_length.set("")
             self.combo_ski_board_length.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
@@ -176,7 +177,7 @@ class RequestDetailsView:
                 fg_color='lightgray',
                 border_width=0,
                 text_color='#4a4a4a',
-                values=self.request_details_controller.get_skis_boards(self.combo_ski_board_length.get()),
+                values=[],
             )
             self.combo_ski_board_id.set("")
             self.combo_ski_board_id.grid(row=row+6, column=0, pady=(0, 10), padx=10, sticky='w')
@@ -242,6 +243,11 @@ class RequestDetailsView:
         row += 2
 
         self.create_buttons(form_frame, row)
+    
+    def update_ski_board_ids(self, length):
+        new_ids = self.request_details_controller.get_skis_boards(length) 
+        self.combo_ski_board_id.set('')
+        self.combo_ski_board_id.configure(values=new_ids)
 
     def create_form_field(self, parent, label_text, row, user_value, entry_options=None):
         parent.grid_columnconfigure(0, minsize=120)
