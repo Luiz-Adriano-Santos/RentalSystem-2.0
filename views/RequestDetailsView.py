@@ -183,6 +183,13 @@ class RequestDetailsView:
             self.combo_ski_board_id.grid(row=row+6, column=0, pady=(0, 10), padx=10, sticky='w')
 
             row += 8
+        
+        elif self.ski_board != 'Not Requested':
+
+            self.ski_board_entry = self.create_form_field(form_frame, "SKIS/BOARD ID", row, self.ski_board[0])
+            self.ski_board_entry.configure(state="readonly")
+
+            row += 2
 
         if self.din_entry:
 
@@ -214,6 +221,13 @@ class RequestDetailsView:
 
             row += 4
         
+        elif self.boots != 'Not Requested':
+
+            self.boots_entry = self.create_form_field(form_frame, "BOOTS ID", row, self.boots[0])
+            self.boots_entry.configure(state="readonly")
+
+            row += 2
+        
         if self.helmet == "Requested":
 
             self.label_helmet = ctk.CTkLabel(
@@ -236,6 +250,13 @@ class RequestDetailsView:
             self.combo_helmet.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
 
             row += 4
+        
+        elif self.helmet != 'Not Requested':
+
+            self.helmet_entry = self.create_form_field(form_frame, "HELMET ID", row, self.helmet[0])
+            self.helmet_entry.configure(state="readonly")
+
+            row += 2
 
         self.employee_entry = self.create_form_field(form_frame, "EMPLOYEE", row, self.employee)
         self.employee_entry.configure(state="readonly")
@@ -286,11 +307,11 @@ class RequestDetailsView:
             ]
         elif self.status_entry.get() == 'IN_PROGRESS':
             buttons = []
-            if self.ski_board != 'Not Requested':
+            if self.ski_board != 'Not Requested' and self.ski_board[1]:
                 buttons.append(("Return Skis/Board", self.return_ski_board))
-            if self.boots != 'Not Requested':
+            if self.boots != 'Not Requested' and self.boots[1]:
                 buttons.append(("Return Boots", self.return_boots))
-            if self.helmet != 'Not Requested':
+            if self.helmet != 'Not Requested' and self.helmet[1]:
                 buttons.append(("Return Helmet", self.return_helmet))
 
         for i, (text, command) in enumerate(buttons):
@@ -340,13 +361,16 @@ class RequestDetailsView:
         self.return_button_action()
 
     def return_ski_board(self):
-        pass
+        self.request_details_controller.return_ski_board()
+        self.return_button_action()
 
     def return_boots(self):
-        pass
+        self.request_details_controller.return_boots()
+        self.return_button_action()
 
     def return_helmet(self):
-        pass
+        self.request_details_controller.return_helmet()
+        self.return_button_action()
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)

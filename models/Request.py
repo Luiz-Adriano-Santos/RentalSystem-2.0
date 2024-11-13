@@ -173,7 +173,7 @@ class Request:
             equipment = pickle.loads(equipment_data[0])
             if equipment.equipment_type == 'Boot' and equipment.size == str(self.associatedUser.shoe_size):
                 for request in self.get_requests():
-                    if request.status == "IN_PROGRESS" and request.boots == equipment.equipment_id:
+                    if request.status == "IN_PROGRESS" and request.boots[0] == equipment.equipment_id and request.boots[1]:
                         available = False
                         break
                     available = True
@@ -197,7 +197,7 @@ class Request:
             equipment = pickle.loads(equipment_data[0])
             if equipment.equipment_type == 'Helmet':
                 for request in self.get_requests():
-                    if request.status == "IN_PROGRESS" and request.helmet == equipment.equipment_id:
+                    if request.status == "IN_PROGRESS" and request.helmet[0] == equipment.equipment_id and request.boots[1]:
                         available = False
                         break
                     available = True
@@ -226,7 +226,7 @@ class Request:
             equipment = pickle.loads(equipment_data[0])
             if equipment.equipment_type == equipment_type and equipment.size == length:
                 for request in self.get_requests():
-                    if request.status == "IN_PROGRESS" and request.ski_board == equipment.equipment_id:
+                    if request.status == "IN_PROGRESS" and request.ski_board[0] == equipment.equipment_id and request.ski_board[1]:
                         available = False
                         break
                     available = True
@@ -239,11 +239,53 @@ class Request:
         self.status = StatusEnum.IN_PROGRESS.value
         self.employee = employee.full_name
         if self.ski_board != 'Not Requested':
-            self.ski_board = ids['ski_board']
+            self.ski_board = [ids['ski_board'], True]
         if self.helmet == 'Requested':
-            self.helmet = ids['helmet']
+            self.helmet = [ids['helmet'], True]
         if self.boots == 'Requested':
-            self.boots = ids['boots']
+            self.boots = [ids['boots'], True]
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(self), self.id))
+
+        conn.commit()
+        conn.close()
+    
+    def return_ski_board(self):
+        self.ski_board[1] = False
+
+        if self.helmet != 'Not Requested' and not self.helmet[1] and self.boots != 'Not Requested' and not self.boots[1]:
+            self.status = StatusEnum.RETURNED.value
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(self), self.id))
+
+        conn.commit()
+        conn.close()
+
+    def return_boots(self):
+        self.boots[1] = False
+
+        if self.helmet != 'Not Requested' and not self.helmet[1] and self.ski_board != 'Not Requested' and not self.ski_board[1]:
+            self.status = StatusEnum.RETURNED.value
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(self), self.id))
+
+        conn.commit()
+        conn.close()
+    
+    def return_helmet(self):
+        self.helmet[1] = False
+
+        if self.ski_board != 'Not Requested' and not self.ski_board[1] and self.boots != 'Not Requested' and not self.boots[1]:
+            self.status = StatusEnum.RETURNED.value
 
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()

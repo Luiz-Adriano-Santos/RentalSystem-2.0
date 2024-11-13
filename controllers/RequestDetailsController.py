@@ -25,3 +25,12 @@ class RequestDetailsController:
     
     def in_progress_request(self, ids):
         self.request.in_progress(ids, self.logged_employee)
+
+    def return_ski_board(self):
+        self.request.return_ski_board()
+
+    def return_boots(self):
+        self.request.return_boots()
+
+    def return_helmet(self):
+        self.request.return_helmet()
