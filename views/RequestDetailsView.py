@@ -99,13 +99,89 @@ class RequestDetailsView:
         
         row = 20
 
-        if self.ski_board != "Not Requested":
+        if self.ski_board == "Skis Requested":
 
-            self.ski_board_length_entry = self.create_form_field(form_frame, "SKI/BOARD LENGTH", 20, self.ski_board)
+            self.label_ski_board_length = ctk.CTkLabel(
+                form_frame,
+                text="SKI LENGHT",
+                text_color='#8f8e8e',
+                anchor="w"
+            )
+            self.label_ski_board_length.grid(row=row, column=0, sticky='w', pady=(5, 2), padx=10)
 
-            self.ski_board_id_entry = self.create_form_field(form_frame, "SKI/BOARD ID", 22, self.ski_board)
+            self.combo_ski_board_length = ctk.CTkComboBox(
+                form_frame,
+                width=200,
+                fg_color='lightgray',
+                border_width=0,
+                text_color='#4a4a4a',
+                values=[128, 136, 144, 152, 160, 168, 176],
+            )
+            self.combo_ski_board_length.set("")
+            self.combo_ski_board_length.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
 
-            row = 24 
+            self.label_ski_board_id = ctk.CTkLabel(
+                form_frame,
+                text="SKI ID",
+                text_color='#8f8e8e',
+                anchor="w"
+            )
+            self.label_ski_board_id.grid(row=row+4, column=0, sticky='w', pady=(5, 2), padx=10)
+
+            self.combo_ski_board_id = ctk.CTkComboBox(
+                form_frame,
+                width=200,
+                fg_color='lightgray',
+                border_width=0,
+                text_color='#4a4a4a',
+                values=self.request_details_controller.get_skis_boards(self.combo_ski_board_length.get()),
+            )
+            self.combo_ski_board_id.set("")
+            self.combo_ski_board_id.grid(row=row+6, column=0, pady=(0, 10), padx=10, sticky='w')
+
+            row += 8
+        
+        elif self.ski_board == "Board Requested":
+
+            self.label_ski_board_length = ctk.CTkLabel(
+                form_frame,
+                text="BOARD LENGHT",
+                text_color='#8f8e8e',
+                anchor="w"
+            )
+            self.label_ski_board_length.grid(row=row, column=0, sticky='w', pady=(5, 2), padx=10)
+
+            self.combo_ski_board_length = ctk.CTkComboBox(
+                form_frame,
+                width=200,
+                fg_color='lightgray',
+                border_width=0,
+                text_color='#4a4a4a',
+                values=[110, 120, 130, 140, 150, 160],
+            )
+            self.combo_ski_board_length.set("")
+            self.combo_ski_board_length.grid(row=row+2, column=0, pady=(0, 10), padx=10, sticky='w')
+
+            self.label_ski_board_id = ctk.CTkLabel(
+                form_frame,
+                text="BOARD ID",
+                text_color='#8f8e8e',
+                anchor="w"
+            )
+            self.label_ski_board_id.grid(row=row+4, column=0, sticky='w', pady=(5, 2), padx=10)
+
+            self.combo_ski_board_id = ctk.CTkComboBox(
+                form_frame,
+                width=200,
+                fg_color='lightgray',
+                border_width=0,
+                text_color='#4a4a4a',
+                values=self.request_details_controller.get_skis_boards(self.combo_ski_board_length.get()),
+            )
+            self.combo_ski_board_id.set("")
+            self.combo_ski_board_id.grid(row=row+6, column=0, pady=(0, 10), padx=10, sticky='w')
+
+            row += 8
 
         if self.din_entry:
 

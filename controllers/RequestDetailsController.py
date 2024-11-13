@@ -15,6 +15,9 @@ class RequestDetailsController:
     
     def get_helmets(self):
         return self.request.get_helmets()
+    
+    def get_skis_boards(self, length):
+        return self.request.get_skis_boards(length)
 
     def cancel_request(self):
         self.request.cancel()

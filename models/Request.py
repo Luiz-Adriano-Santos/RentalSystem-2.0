@@ -205,3 +205,27 @@ class Request:
                     available_helmets_list.append(equipment.equipment_id)
         
         return available_helmets_list
+    
+    def get_skis_boards(self, length):
+
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT equipment FROM equipments")
+
+        equipments = cursor.fetchall()
+        conn.close()
+
+        available_skis_boards_list = []
+        for equipment_data in equipments:
+            equipment = pickle.loads(equipment_data[0])
+            if equipment.equipment_type == 'Ski' and equipment.size == str(length):
+                for request in self.get_requests():
+                    if request.status == "IN_PROGRESS" and request.ski_board == equipment.equipment_id:
+                        available = False
+                        break
+                    available = True
+                if available:
+                    available_skis_boards_list.append(equipment.equipment_id)
+        
+        return available_skis_boards_list
