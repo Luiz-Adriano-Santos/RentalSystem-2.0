@@ -1,5 +1,5 @@
 from models.UserAssociated import UserAssociated
-from views.UserEditView import EmployeeUserEditView
+from views.UserEditView import UserEditView
 from views.RegisterAssociatedUserView import RegisterAssociatedUserView
 from views.UsersView import UsersView
 
@@ -104,7 +104,7 @@ class AssociatedUsersController:
 
     def open_associated_user_edit_page(self, logged_user, user):
         self.view.root.withdraw()
-        self.view = EmployeeUserEditView(self, logged_user, user, is_associated_user=True)
+        self.view = UserEditView(self, logged_user, user, is_associated_user=True)
         self.view.mainloop()
         
     def get_all_associated_users(self, user):

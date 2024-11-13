@@ -1,6 +1,6 @@
 from controllers.Utils import hash_password
 from models.User import User
-from views.UserEditView import EmployeeUserEditView
+from views.UserEditView import UserEditView
 from views.UsersView import UsersView
 from views.GuestEditView import GuestEditView
 
@@ -16,7 +16,7 @@ class RegisteredUsersController:
 
     def open_employee_user_edit_page(self, logged_user, user):
         self.view.root.withdraw()
-        self.view = EmployeeUserEditView(self, logged_user, user)
+        self.view = UserEditView(self, logged_user, user)
         self.view.mainloop()
 
     def guest_edit_page(self, user):
