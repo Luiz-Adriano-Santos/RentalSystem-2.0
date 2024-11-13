@@ -71,23 +71,23 @@ class AssociatedUsersController:
         shoe_size = user_data["shoe_size"]
 
         if not all([full_name, age, gender, height, weight, shoe_size]):
-            self.view.message_box("Error", "Please fill in all fields.")
+            self.view.show_message("Error", "Please fill in all fields.")
             return
 
         if not str(age).isnumeric() or int(age) < 0 or int(age) > 120:
-            self.view.message_box("Error", "Invalid age.")
+            self.view.show_message("Error", "Invalid age.")
             return
 
         if not str(height).isnumeric() or int(height) < 0 or int(height) > 300:
-            self.view.message_box("Error", "Invalid height.")
+            self.view.show_message("Error", "Invalid height.")
             return
 
         if not str(weight).isnumeric() or int(weight) < 0 or int(weight) > 300:
-            self.view.message_box("Error", "Invalid weight.")
+            self.view.show_message("Error", "Invalid weight.")
             return
 
         if not str(shoe_size).isnumeric() or int(shoe_size) < 0 or int(shoe_size) > 50:
-            self.view.message_box("Error", "Invalid shoe size.")
+            self.view.show_message("Error", "Invalid shoe size.")
             return
 
         editing_user.update_associated_user(user_data)
