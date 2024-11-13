@@ -235,12 +235,15 @@ class Request:
         
         return available_skis_boards_list
     
-    def in_progress(self, ski_board, helmet, boots, employee):
+    def in_progress(self, ids, employee):
         self.status = StatusEnum.IN_PROGRESS.value
         self.employee = employee.full_name
-        self.ski_board = ski_board
-        self.helmet = helmet
-        self.boots = boots
+        if self.ski_board != 'Not Requested':
+            self.ski_board = ids['ski_board']
+        if self.helmet == 'Requested':
+            self.helmet = ids['helmet']
+        if self.boots == 'Requested':
+            self.boots = ids['boots']
 
         conn = sqlite3.connect('RentalSystem.db')
         cursor = conn.cursor()

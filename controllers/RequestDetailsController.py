@@ -23,5 +23,5 @@ class RequestDetailsController:
     def cancel_request(self):
         self.request.cancel()
     
-    def in_progress_request(self, ski_board, helmet, boots):
-        self.request.in_progress(ski_board, helmet, boots, self.logged_employee)
+    def in_progress_request(self, ids):
+        self.request.in_progress(ids, self.logged_employee)

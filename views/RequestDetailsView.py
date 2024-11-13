@@ -313,19 +313,30 @@ class RequestDetailsView:
 
     def in_progress(self):
         
-        if self.ski_board != 'Not Requested' and not self.combo_ski_board_id.get():
-            self.show_message('ERROR', 'You need to select a ski/board')
-            return
+        ids={}
+
+        if self.ski_board != 'Not Requested':
+            if not self.combo_ski_board_id.get():
+                self.show_message('ERROR', 'You need to select a ski/board')
+                return
+            else:
+                ids['ski_board'] = self.combo_ski_board_id.get()
         
-        if self.helmet != 'Not Requested' and not self.combo_helmet.get():
-            self.show_message('ERROR', 'You need to select a helmet')
-            return
+        if self.helmet != 'Not Requested':
+            if not self.combo_helmet.get():
+                self.show_message('ERROR', 'You need to select a helmet')
+                return
+            else:
+                ids['helmet'] = self.combo_helmet.get()
         
-        if self.boots != 'Not Requested' and not self.combo_boots.get():
-            self.show_message('ERROR', 'You need to select a pair of boots')
-            return
+        if self.boots != 'Not Requested':
+            if not self.combo_boots.get():
+                self.show_message('ERROR', 'You need to select a pair of boots')
+                return
+            else:
+                ids['boots'] = self.combo_boots.get()
         
-        self.request_details_controller.in_progress_request(self.combo_ski_board_id.get(), self.combo_helmet.get(), self.combo_boots.get())
+        self.request_details_controller.in_progress_request(ids)
         self.return_button_action()
 
     def return_ski_board(self):
