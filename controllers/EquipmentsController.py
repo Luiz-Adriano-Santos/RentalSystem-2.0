@@ -11,20 +11,23 @@ class EquipmentsController:
         self.login_controller = login_controller
         self.view = None
 
-    def equipments_page(self):
+    def equipments_page(self, logged_employee):
         equipments = Equipment.get_all_equipments()
-        self.view = EquipmentsHomeView(self, equipments)
+        self.view = EquipmentsHomeView(self, equipments, logged_employee)
         self.view.mainloop()
     
-    def edit_equipment_page(self, equipment):
-        self.view = EquipmentEditView(self, equipment)
+    def edit_equipment_page(self, equipment, logged_employee):
+        self.view = EquipmentEditView(self, equipment, logged_employee)
         self.view.mainloop()
     
-    def register_equipment_page(self):
-        self.view = EquipmentRegistrationView(self)
+    def register_equipment_page(self, logged_employee):
+        self.view = EquipmentRegistrationView(self, logged_employee)
         self.view.mainloop()
 
-    def delete_equipment(self, equipment):
+    def return_to_employee_home(self, logged_employee):
+        self.login_controller.employee_page(logged_employee)
+
+    def delete_equipment(self, equipment, logged_employee):
         try:
             if equipment.availability == "Rented":
                 self.view.show_message("Error", "Cannot delete equipment that is currently rented.")
@@ -32,7 +35,7 @@ class EquipmentsController:
             Equipment.delete_equipment(equipment_id=equipment.equipment_id)
             self.view.show_message("Success", "Equipment deleted successfully.")
             self.view.root.withdraw()
-            self.equipments_page()
+            self.equipments_page(logged_employee)
 
         except Exception as e:
             self.view.show_message("Error", f"Error deleting equipment: {str(e)}")
@@ -45,14 +48,13 @@ class EquipmentsController:
 
         if not str(size).isnumeric() or int(size) < 0 or int(size) > 300:
             self.view.show_message("Error", "Invalid size.")
-            return
+            return  
 
         try:
             date = datetime.datetime.now().strftime('%Y-%m-%d')
             Equipment(id, type, size, date).create_equipment()
             self.view.show_message("Success", "Equipment registered successfully.")
-            self.view.root.withdraw()
-            self.equipments_page()
+            self.view.return_to_equipments_home()
 
         except Exception as e:
             self.view.show_message("Error", f"Error registering equipment: {str(e)}")

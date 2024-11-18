@@ -23,7 +23,7 @@ class HomeController:
 
     def open_equipments_page(self):
         equipments_controller = EquipmentsController(self.login_controller)
-        equipments_controller.equipments_page()
+        equipments_controller.equipments_page(self.logged_employee)
 
     def logout(self):
         self.view.root.withdraw()

@@ -5,10 +5,11 @@ from views.common.DefaultLayout import create_default_background, initialize_win
 
 
 class EquipmentRegistrationView:
-    def __init__(self, controller):
+    def __init__(self, controller, logged_employee):
         self.controller = controller
         self.root = initialize_window()
 
+        self.logged_employee = logged_employee
         self.type_entry = ""
         self.id_entry = ""
         self.size_entry = ""
@@ -156,7 +157,7 @@ class EquipmentRegistrationView:
 
     def return_to_equipments_home(self):
         self.root.withdraw()
-        self.controller.equipments_page()
+        self.controller.equipments_page(self.logged_employee)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)

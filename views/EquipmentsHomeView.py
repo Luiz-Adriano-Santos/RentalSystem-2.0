@@ -1,17 +1,18 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from views.common.DefaultLayout import create_default_background
+from views.common.DefaultLayout import create_default_background, create_default_header
 
 class EquipmentsHomeView:
-    def __init__(self, controller, equipments):
+    def __init__(self, controller, equipments, logged_employee):
         self.controller = controller
         self.equipments = equipments 
         self.root = self.initialize_window()
+        self.logged_employee = logged_employee
         self.setup_ui()
 
     def setup_ui(self):
         background_frame = create_default_background(self.root)
-        self.create_header(background_frame)
+        create_default_header(background_frame, self.home_button_action )
         self.create_form_title(background_frame)
         self.create_equipment_columns(background_frame)
 
@@ -87,31 +88,38 @@ class EquipmentsHomeView:
                     self.create_equipment_card(column_frame, equipment)
 
     def create_equipment_card(self, parent, equipment):
-        card_frame = ctk.CTkFrame(parent, fg_color='#81c9d8', corner_radius=8)
-        card_frame.pack(pady=5, padx=5, fill="both")
+        card_frame = ctk.CTkFrame(parent, fg_color='#D3D3D3', corner_radius=8, width=400, height=250)
+        card_frame.pack(pady=10, padx=10, fill="both")
 
-        id_label = ctk.CTkLabel(card_frame, text=f"ID: {equipment.equipment_id}", font=('Poppins', 16))
-        id_label.pack(anchor='w', padx=10, pady=2)
+        id_frame = ctk.CTkFrame(card_frame, fg_color='#81C9D8', corner_radius=8)
+        id_frame.pack(anchor='w', fill='x', pady=5)
 
-        size_label = ctk.CTkLabel(card_frame, text=f"Size: {equipment.size}", font=('Poppins', 16))
-        size_label.pack(anchor='w', padx=10, pady=2)
+        id_label = ctk.CTkLabel(id_frame, text=f"{equipment.equipment_id}", font=('Poppins', 18, 'bold'), text_color='black')
+        id_label.pack(pady=4)
 
-        date_label = ctk.CTkLabel(card_frame, text=f"Registration Date: {equipment.registration_date}", font=('Poppins', 16))
-        date_label.pack(anchor='w', padx=10, pady=2)
+        size_label = ctk.CTkLabel(card_frame, text=f"{equipment.size}", font=('Poppins', 18), text_color='black')
+        size_label.pack(anchor='w', padx=20, pady=4)
 
-        availability_label = ctk.CTkLabel(card_frame, text=f"Availability: {equipment.availability}", font=('Poppins', 16))
-        availability_label.pack(anchor='w', padx=10, pady=2)
+        date_label = ctk.CTkLabel(card_frame, text=f"{equipment.registration_date}", font=('Poppins', 18), text_color='black')
+        date_label.pack(anchor='w', padx=20, pady=4)
+
+        availability_label = ctk.CTkLabel(card_frame, text=f"{equipment.availability}", font=('Poppins', 18), text_color='black')
+        availability_label.pack(anchor='w', padx=20, pady=4)
 
         card_frame.bind("<Button-1>", lambda e: self.on_card_click(equipment))
 
+
     def on_card_click(self, equipment):
         self.close()
-        self.controller.edit_equipment_page(equipment)
+        self.controller.edit_equipment_page(equipment, self.logged_employee)
         
+    def home_button_action(self):
+        self.root.withdraw()
+        self.controller.return_to_employee_home(self.logged_employee)
 
     def add_equipment_action(self):
         self.close()
-        self.controller.register_equipment_page()
+        self.controller.register_equipment_page(self.logged_employee)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)

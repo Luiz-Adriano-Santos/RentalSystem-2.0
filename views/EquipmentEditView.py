@@ -4,10 +4,12 @@ from tkinter import messagebox
 from views.common.DefaultLayout import create_default_background, initialize_window
 
 class EquipmentEditView:
-    def __init__(self, controller, equipment):
+    def __init__(self, controller, equipment, logged_employee):
+
         self.controller = controller
         self.root = initialize_window()
 
+        self.logged_employee = logged_employee
         self.equipment = equipment
 
         self.setup_ui()
@@ -155,10 +157,10 @@ class EquipmentEditView:
 
     def return_to_equipments_home(self):
         self.close()
-        self.controller.equipments_page()
+        self.controller.equipments_page(self.logged_employee)
 
     def delete_equipment(self):
-        self.controller.delete_equipment(self.equipment)
+        self.controller.delete_equipment(self.equipment, self.logged_employee)
 
     def show_message(self, title, message):
         messagebox.showinfo(title, message)
