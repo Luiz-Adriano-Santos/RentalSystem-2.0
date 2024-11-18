@@ -24,7 +24,7 @@ class RegisterAssociatedUserView:
         background_frame = create_default_background(self.root)
         create_default_header(background_frame, self.home_button_action)
         self.create_form_title(background_frame)
-        self.create_edit_user_form(background_frame)
+        self.create_associated_user_form(background_frame)
 
     def create_form_title(self, parent):
         title_frame = ctk.CTkFrame(parent, corner_radius=0, fg_color="white", width=400)
@@ -52,7 +52,7 @@ class RegisterAssociatedUserView:
         )
         return_button.grid(row=0, column=2, padx=(10, 0))
 
-    def create_edit_user_form(self, parent):
+    def create_associated_user_form(self, parent):
         form_frame = ctk.CTkScrollableFrame(parent, corner_radius=0, fg_color="white", width=400)
         form_frame.pack(fill='y', expand=True)
 
