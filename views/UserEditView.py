@@ -130,7 +130,10 @@ class UserEditView:
         confirm = messagebox.askyesno("Confirm Delete",
                                       "Are you sure you want to delete this user?")
         if confirm:
-            self.controller.delete_user(self.logged_user, self.editing_user)
+            if self.is_associated_user:
+                self.controller.delete_associated_user(self.logged_user, self.editing_user)
+            else:
+                self.controller.delete_editing_user(self.logged_user, self.editing_user)
         else:
             self.show_message('Error', "User deletion canceled.")
 

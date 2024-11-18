@@ -77,3 +77,15 @@ class UserAssociated:
 
         return users
 
+    @classmethod
+    def delete_all_associated_users_by_email(cls, email):
+        conn = sqlite3.connect('RentalSystem.db')
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute("DELETE FROM UsersAssociated WHERE emailUser = ?", (email,))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"An error occurred while deleting associated users: {e}")
+        finally:
+            conn.close()

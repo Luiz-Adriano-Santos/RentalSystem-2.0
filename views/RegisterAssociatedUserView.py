@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
+from models.enums import GenderEnum
 from views.common.DefaultLayout import create_default_background, initialize_window, create_default_header, \
     create_gender_select, create_form_field
 
@@ -12,7 +13,7 @@ class RegisterAssociatedUserView:
 
         self.logged_user = logged_user
         self.full_name_entry = ""
-        self.gender_entry = ""
+        self.gender_entry = GenderEnum.MALE.value
         self.us_shoe_size_entry = ""
         self.age_entry = ""
         self.weight_entry = ""

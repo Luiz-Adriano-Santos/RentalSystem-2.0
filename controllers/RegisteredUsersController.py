@@ -1,5 +1,6 @@
 from controllers.Utils import hash_password
 from models.User import User
+from models.UserAssociated import UserAssociated
 from views.UserEditView import UserEditView
 from views.UsersView import UsersView
 from views.GuestEditView import GuestEditView
@@ -79,10 +80,22 @@ class RegisteredUsersController:
 
     def delete_user(self, user):
         user.delete_user()
+        UserAssociated.delete_all_associated_users_by_email(user.email)
         self.view.show_message("Success", "User deleted successfully.")
         self.view.root.withdraw()
         if user.is_employee:
             self.registered_users_page(user)
+        else:
+            self.controller.reset_login_fields()
+            self.controller.view.root.deiconify()
+
+    def delete_editing_user(self, logged_user, editing_user):
+        editing_user.delete_user()
+        UserAssociated.delete_all_associated_users_by_email(editing_user.email)
+        self.view.show_message("Success", "User deleted successfully.")
+        self.view.root.withdraw()
+        if logged_user.is_employee:
+            self.registered_users_page(logged_user)
         else:
             self.controller.reset_login_fields()
             self.controller.view.root.deiconify()

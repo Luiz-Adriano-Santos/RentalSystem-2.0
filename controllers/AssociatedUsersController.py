@@ -95,7 +95,7 @@ class AssociatedUsersController:
         self.view.root.withdraw()
         self.associated_users_page(logged_user)
 
-    def delete_user(self, logged_user, user):
+    def delete_associated_user(self, logged_user, user):
         user.delete_associated_user()
         self.view.show_message("Success", "User deleted successfully.")
         self.view.root.withdraw()
