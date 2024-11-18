@@ -57,7 +57,7 @@ class GuestEditView:
 
         view_label = ctk.CTkLabel(
             title_frame,
-            text="View Equipment",
+            text="Edit Account",
             font=('Poppins Medium', 24, 'bold'),  
             text_color='#8f8e8e'
         )
