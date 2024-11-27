@@ -256,7 +256,7 @@ class Request:
     def return_ski_board(self):
         self.ski_board[1] = False
 
-        if self.helmet != 'Not Requested' and not self.helmet[1] and self.boots != 'Not Requested' and not self.boots[1]:
+        if (self.helmet == 'Not Requested' or (self.helmet != 'Not Requested' and not self.helmet[1])) and (self.boots == 'Not Requested' or (self.boots != 'Not Requested' and not self.boots[1])):
             self.status = StatusEnum.RETURNED.value
 
         conn = sqlite3.connect('RentalSystem.db')
@@ -270,7 +270,7 @@ class Request:
     def return_boots(self):
         self.boots[1] = False
 
-        if self.helmet != 'Not Requested' and not self.helmet[1] and self.ski_board != 'Not Requested' and not self.ski_board[1]:
+        if (self.helmet == 'Not Requested' or (self.helmet != 'Not Requested' and not self.helmet[1])) and (self.ski_board == 'Not Requested' or (self.ski_board != 'Not Requested' and not self.ski_board[1])):
             self.status = StatusEnum.RETURNED.value
 
         conn = sqlite3.connect('RentalSystem.db')
@@ -284,7 +284,7 @@ class Request:
     def return_helmet(self):
         self.helmet[1] = False
 
-        if self.ski_board != 'Not Requested' and not self.ski_board[1] and self.boots != 'Not Requested' and not self.boots[1]:
+        if (self.ski_board == 'Not Requested' or (self.ski_board != 'Not Requested' and not self.ski_board[1])) and (self.boots == 'Not Requested' or (self.boots != 'Not Requested' and not self.boots[1])):
             self.status = StatusEnum.RETURNED.value
 
         conn = sqlite3.connect('RentalSystem.db')

@@ -44,11 +44,7 @@ class EquipmentsController:
     def add_new_equipment(self, type, id, size):
         if not all([type, id, size]):
             self.view.show_message("Error", "Please fill in all fields.")
-            return
-
-        if not str(size).isnumeric() or int(size) < 0 or int(size) > 300:
-            self.view.show_message("Error", "Invalid size.")
-            return  
+            return 
 
         try:
             date = datetime.datetime.now().strftime('%Y-%m-%d')
