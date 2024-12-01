@@ -1,5 +1,8 @@
 from views.RequestDetailsView import RequestDetailsView
 
+from DAOs.EquipmentDAO import EquipmentDAO
+from DAOs.RequestDAO import RequestDAO
+
 class RequestDetailsController:
     def __init__(self, employee_home_controller, request, user, logged_employee):
         self.employee_home_controller = employee_home_controller
@@ -12,25 +15,25 @@ class RequestDetailsController:
         self.employee_home_controller.open_employee_home_page(self.user)
 
     def get_boots(self):
-        return self.request.get_boots()
+        return EquipmentDAO().get_boots(self.request)
     
     def get_helmets(self):
-        return self.request.get_helmets()
+        return EquipmentDAO().get_helmets()
     
     def get_skis_boards(self, length):
-        return self.request.get_skis_boards(length)
+        return EquipmentDAO().get_skis_boards(self.request, length)
 
     def cancel_request(self):
-        self.request.cancel()
+        RequestDAO().cancel(self.request)
     
     def in_progress_request(self, ids):
-        self.request.in_progress(ids, self.logged_employee)
+        RequestDAO().in_progress(ids, self.logged_employee, self.request)
 
     def return_ski_board(self):
-        self.request.return_ski_board()
+        RequestDAO().return_ski_board(self.request)
 
     def return_boots(self):
-        self.request.return_boots()
+        RequestDAO().return_boots(self.request)
 
     def return_helmet(self):
-        self.request.return_helmet()
+        RequestDAO().return_helmet(self.request)

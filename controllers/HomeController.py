@@ -7,6 +7,7 @@ from controllers.RequestDetailsController import RequestDetailsController
 from models.Request import Request
 from models.enums import StatusEnum
 from datetime import datetime
+from DAOs.RequestDAO import RequestDAO
 
 class HomeController:
     def __init__(self, login_controller, user):
@@ -87,4 +88,4 @@ class HomeController:
         GuestHomeView.message_box('Success', 'Request submitted successfully!')
     
     def get_requests(self):
-        return Request.get_requests()
+        return RequestDAO().get_requests()
