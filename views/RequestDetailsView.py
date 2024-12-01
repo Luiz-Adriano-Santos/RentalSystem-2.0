@@ -1,7 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
-from models.enums import GenderEnum
 from views.common.DefaultLayout import create_default_background, initialize_window
 
 class RequestDetailsView:

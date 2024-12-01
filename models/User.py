@@ -91,16 +91,3 @@ class User:
 
         finally:
             conn.close()
-    
-    @classmethod
-    def get_user(cls, email):
-        conn = sqlite3.connect('RentalSystem.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT user FROM users WHERE email = ?", (email,))
-        try:
-            user = pickle.loads(cursor.fetchone()[0])
-            conn.close()
-            return user
-        except:
-            conn.close()
-            return False

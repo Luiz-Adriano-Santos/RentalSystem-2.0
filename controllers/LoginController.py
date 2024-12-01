@@ -4,14 +4,14 @@ from controllers.HomeController import HomeController
 from controllers.RegistrationController import RegistrationController
 from views.LoginView import LoginView
 from views.RoleSelectionView import RoleSelectionView
-from models.User import User
+from DAOs.UserDAO import UserDAO
 
 class LoginController:
     def __init__(self):
         self.view = LoginView(self)
 
     def handle_login(self, email, password):
-        user = User.get_user(email)
+        user = UserDAO().get_user(email)
         if user and bcrypt.checkpw(password.encode(), user.password_hash):
             self.view.root.withdraw()
             if user.is_employee:
