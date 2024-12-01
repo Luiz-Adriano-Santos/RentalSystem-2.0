@@ -13,7 +13,6 @@ class EquipmentDAO:
         self.cursor.execute("SELECT equipment FROM equipments")
 
         equipments = self.cursor.fetchall()
-        self.conn.close()
 
         available_boots_list = []
         for equipment_data in equipments:
@@ -34,7 +33,6 @@ class EquipmentDAO:
         self.cursor.execute("SELECT equipment FROM equipments")
 
         equipments = self.cursor.fetchall()
-        self.conn.close()
 
         available_helmets_list = []
         for equipment_data in equipments:
@@ -60,7 +58,6 @@ class EquipmentDAO:
         self.cursor.execute("SELECT equipment FROM equipments")
 
         equipments = self.cursor.fetchall()
-        self.conn.close()
 
         available_skis_boards_list = []
         for equipment_data in equipments:

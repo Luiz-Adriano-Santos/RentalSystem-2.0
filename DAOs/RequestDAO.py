@@ -28,7 +28,6 @@ class RequestDAO:
         self.cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(request), request.id))
 
         self.conn.commit()
-        self.conn.close()
     
     def in_progress(self, ids, employee, request):
         request.status = StatusEnum.IN_PROGRESS.value
@@ -43,7 +42,6 @@ class RequestDAO:
         self.cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(request), request.id))
 
         self.conn.commit()
-        self.conn.close()
     
     def return_ski_board(self, request):
         request.ski_board[1] = False
@@ -54,7 +52,6 @@ class RequestDAO:
         self.cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(request), request.id))
 
         self.conn.commit()
-        self.conn.close()
 
     def return_boots(self, request):
         request.boots[1] = False
@@ -66,7 +63,6 @@ class RequestDAO:
         self.cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(request), request.id))
 
         self.conn.commit()
-        self.conn.close()
     
     def return_helmet(self, request):
         request.helmet[1] = False
@@ -77,4 +73,3 @@ class RequestDAO:
         self.cursor.execute("UPDATE requests SET request = ? WHERE id = ?", (pickle.dumps(request), request.id))
 
         self.conn.commit()
-        self.conn.close()
