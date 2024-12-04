@@ -83,9 +83,11 @@ class HomeController:
             includes_helmet = "Not Requested"
 
         timestamp = datetime.now().strftime('%m/%d/%Y - %I:%M %p')
-
-        Request(StatusEnum.SENT.value, sport, timestamp, user, includes_boots, includes_helmet, includes_skis, associatedName).create_request()
-        GuestHomeView.message_box('Success', 'Request submitted successfully!')
+        try:
+            Request(StatusEnum.SENT.value, sport, timestamp, user, includes_boots, includes_helmet, includes_skis, associatedName).create_request()
+            GuestHomeView.message_box('Success', 'Order placed successfully, collect your equipment if necessarie from the employee!')
+        except Exception as e:
+            GuestHomeView.message_box('Error', 'An error occurred while trying to register the request')
     
     def get_requests(self):
         return RequestDAO().get_requests()

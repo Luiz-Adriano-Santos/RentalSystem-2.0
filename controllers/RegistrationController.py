@@ -1,7 +1,7 @@
 from controllers.Utils import hash_password
 from models.User import User
 from views.RegistrationView import RegistrationView
-
+from models.enums import GenderEnum
 class RegistrationController:
     def __init__(self, login_controller):
         self.login_controller = login_controller
@@ -37,6 +37,11 @@ class RegistrationController:
             return
 
         password_hash = hash_password(password)
+
+        if gender == 'MALE':
+            gender = GenderEnum.MALE.value
+        else:
+            gender = GenderEnum.FEMALE.value
         try:
             User(int(age), email, full_name, gender, int(height), False, password_hash, int(shoe_size), int(weight)).create_user()
             self.registration_view.message_box("Success", "User registered successfully.")
