@@ -1,5 +1,6 @@
 
 import datetime
+import sqlite3
 from models.Equipment import Equipment
 from views.EquipmentEditView import EquipmentEditView
 from views.EquipmentsHomeView import EquipmentsHomeView
@@ -45,13 +46,12 @@ class EquipmentsController:
         if not all([type, id, size]):
             self.view.show_message("Error", "Please fill in all fields.")
             return 
-
+        date = datetime.datetime.now().strftime('%Y-%m-%d')
         try:
-            date = datetime.datetime.now().strftime('%Y-%m-%d')
             Equipment(id, type, size, date).create_equipment()
             self.view.show_message("Success", "Equipment registered successfully.")
             self.view.return_to_equipments_home()
+        except sqlite3.IntegrityError:
+            self.view.show_message("Error", "Equipment ID already exists.")
 
-        except Exception as e:
-            self.view.show_message("Error", f"Error registering equipment: {str(e)}")
-            return
+
